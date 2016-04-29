@@ -7,17 +7,16 @@ from ..items import ProxyItem
 
 
 class XicidailiSpider(scrapy.Spider):
-    name = "xicidaili_spider"
+    name = "kuaidaili_spider"
     allowed_domains = [
-        "xicidaili.com"
+        "kuaidaili.com"
     ]
 
     start_urls = [
-        "http://www.xicidaili.com/nn/",     # 国内高匿代理
-        "http://www.xicidaili.com/nt/",     # 国内普通代理
-        "http://www.xicidaili.com/wn/",     # 国外高匿代理
-        "http://www.xicidaili.com/wt/",     # 国外普通代理
-        "http://www.xicidaili.com/qq/"      # SOCKS代理
+        "http://www.kuaidaili.com/free/inha/",     # 国内高匿代理
+        "http://www.kuaidaili.com/free/intr/",     # 国内普通代理
+        "http://www.kuaidaili.com/free/outha/",     # 国外高匿代理
+        "http://www.kuaidaili.com/free/outtr/"    # 国外普通代理
     ]
 
     def parse(self, response):
