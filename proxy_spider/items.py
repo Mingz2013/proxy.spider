@@ -12,3 +12,14 @@ class ProxySpiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+
+class ProxyItem(scrapy.Item):
+    country = scrapy.Field()
+    ip = scrapy.Field()
+    port = scrapy.Field()
+    location = scrapy.Field()
+    anonymous = scrapy.Field()
+    type = scrapy.Field()
+    time = scrapy.Field()
+    pass
