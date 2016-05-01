@@ -54,7 +54,7 @@ class GetIp(Singleton):
 
     def del_ip(self, record):
         # print "del ip"
-        ProxyItemDB.remove_proxy_item(record["ip"])
+        ProxyItemDB.remove_proxy_item(record["ip"], record["port"])
         # print record, " was deleted."
 
     def check_ip(self, record):
@@ -68,7 +68,7 @@ class GetIp(Singleton):
         try:
             req = urllib2.Request(url=url)
             req.set_proxy(proxy, proxy_type)
-            response = urllib2.urlopen(req, timeout=15)
+            response = urllib2.urlopen(req, timeout=10)
         except Exception, e:
             # print "Request Error:", e
             return False
@@ -93,11 +93,11 @@ class GetIp(Singleton):
     def get_ips(self):
         try:
             print "get_ips"
-            pool = threadpool.ThreadPool(60)
-            requests = threadpool.makeRequests(self.judge_ip, self.result)
-            [pool.putRequest(req) for req in requests]
-            pool.wait()
-            print "pool wait"
+            # pool = threadpool.ThreadPool(60)
+            # requests = threadpool.makeRequests(self.judge_ip, self.result)
+            # [pool.putRequest(req) for req in requests]
+            # pool.wait()
+            # print "pool wait"
             # print "Proxy getip was executed."
             self.result = ProxyItemDB.get_proxy_items()
             http = [h for h in self.result if h["type"] == "HTTP"]
@@ -105,7 +105,7 @@ class GetIp(Singleton):
             print "Http: ", len(http), "Https: ", len(https)
             return {"http": http, "https": https}
         except Exception, e:
-            print e
+            print e.message
             return {}
 
 # if __name__ == "__main__":

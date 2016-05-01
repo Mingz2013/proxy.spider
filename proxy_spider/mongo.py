@@ -23,13 +23,13 @@ class ProxyItemDB(object):
         return proxy_db.proxy_items.find()
 
     @staticmethod
-    def upsert_proxy_item(ip, item):
+    def upsert_proxy_item(ip, port, item):
         # print "ProxyItemDB->upsert_proxy_item"
-        proxy_db.proxy_items.update({"ip": item.get("ip")}, item, True, True)
+        proxy_db.proxy_items.update({"ip": ip, "port": port}, item, True, True)
 
     @staticmethod
-    def remove_proxy_item(ip):
+    def remove_proxy_item(ip, port):
         # print "ProxyItemDB->remove_proxy_item"
-        proxy_db.proxy_items.remove({"ip": ip})
+        proxy_db.proxy_items.remove({"ip": ip, "port": port})
 
 
