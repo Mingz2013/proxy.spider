@@ -15,6 +15,14 @@ from proxy import GetIp
 #     def process_item(self, item, spider):
 #         return item
 
+class ValidParamsPipeline(object):
+    def process_item(self, item ,spider):
+        if item["ip"] and item["port"]:
+            return item
+        else:
+            raise DropItem("params not Valid: %" % item)
+
+
 class DuplicatesPipeline(object):
     def __init__(self):
         self.ips_seen = set()
@@ -29,7 +37,7 @@ class DuplicatesPipeline(object):
 
 class CheckProxyPipeline(object):
     def process_item(self, item, spider):
-        ret = GetIp.check_ip(dict(item))
+        ret = GetIp.check_ip(item)
         if ret:
             return item
         else:

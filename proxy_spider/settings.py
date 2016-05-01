@@ -64,7 +64,9 @@ SPIDER_MIDDLEWARES = {
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     # 'proxy_spider.pipelines.SomePipeline': 300,
-    'proxy_spider.pipelines.DuplicatesPipeline': 300,
+    'proxy_spider.pipelines.ValidParamsPipeline': 100,
+    'proxy_spider.pipelines.DuplicatesPipeline': 200,
+    'proxy_spider.pipelines.CheckProxyPipeline': 300,
     'proxy_spider.pipelines.MongoPipeline': 400,
 }
 

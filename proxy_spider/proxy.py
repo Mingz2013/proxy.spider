@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'zhaojm'
 
-
 import urllib2
 
 from mongo import ProxyItemDB
@@ -67,7 +66,6 @@ class GetIp(Singleton):
             response = urllib2.urlopen(req, timeout=30)
         except Exception, e:
             print "Request Error:", e
-            # self.del_ip(record)
             return False
         else:
             code = response.getcode()
@@ -76,7 +74,6 @@ class GetIp(Singleton):
                 return True
             else:
                 print 'Invalide proxy', record
-                # self.del_ip(record)
                 return False
 
     def judge_ip(self, record):

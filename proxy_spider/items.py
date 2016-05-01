@@ -8,10 +8,10 @@
 import scrapy
 
 
-class ProxySpiderItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+# class ProxySpiderItem(scrapy.Item):
+#     # define the fields for your item here like:
+#     # name = scrapy.Field()
+#     pass
 
 
 class ProxyItem(scrapy.Item):
