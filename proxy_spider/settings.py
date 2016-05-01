@@ -43,16 +43,16 @@ NEWSPIDER_MODULE = 'proxy_spider.spiders'
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-SPIDER_MIDDLEWARES = {
-    # 'proxy_spider.middlewares.MyCustomSpiderMiddleware': 543,
-    'proxy_spider.middlewares.ProxyMiddleware': 543,
-}
+# SPIDER_MIDDLEWARES = {
+#     'proxy_spider.middlewares.MyCustomSpiderMiddleware': 543,
+# }
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'proxy_spider.middlewares.MyCustomDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    # 'proxy_spider.middlewares.MyCustomDownloaderMiddleware': 543,
+    'proxy_spider.middlewares.ProxyMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html

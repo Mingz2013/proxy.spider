@@ -47,10 +47,12 @@ class Singleton(object):
 
 class GetIp(Singleton):
     def __init__(self):
+        print "getIP init"
         self.result = ProxyItemDB.get_proxy_items()
+        print "self.result: ", self.result
 
     def del_ip(self, record):
-        '''delete ip that can not use'''
+        print "del ip"
         ProxyItemDB.remove_proxy_item(record["ip"])
         print record, " was deleted."
 
@@ -58,8 +60,10 @@ class GetIp(Singleton):
         http_url = "http://www.baidu.com/"
         https_url = "https://www.alipay.com/"
         proxy_type = record["type"].lower()
+        print "proxy_type:=", proxy_type
         url = http_url if proxy_type == "http" else https_url
         proxy = "%s:%s" % (record["ip"], record["port"])
+        print "proxy:=", proxy
         try:
             req = urllib2.Request(url=url)
             req.set_proxy(proxy, proxy_type)
@@ -86,8 +90,12 @@ class GetIp(Singleton):
             return False
 
     def get_ips(self):
-        print "Proxy getip was executed."
-        http = [h[0:2] for h in self.result if h[2] == "HTTP" and self.judge_ip(h)]
-        https = [h[0:2] for h in self.result if h[2] == "HTTPS" and self.judge_ip(h)]
-        print "Http: ", len(http), "Https: ", len(https)
-        return {"http": http, "https": https}
+        try:
+            print "Proxy getip was executed."
+            http = [h for h in self.result if h["type"] == "HTTP" and self.judge_ip(h)]
+            https = [h for h in self.result if h["type"] == "HTTPS" and self.judge_ip(h)]
+            print "Http: ", len(http), "Https: ", len(https)
+            return {"http": http, "https": https}
+        except Exception, e:
+            print e
+            return {}

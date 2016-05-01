@@ -2,18 +2,22 @@
 __author__ = 'zhaojm'
 
 import base64
-from proxy import GetIp, counter
+from proxy import GetIp
 import logging
 
 ips = GetIp().get_ips()
 
+print "ips: %s" + ips
 
 class ProxyMiddleware(object):
-    http_n = 0  # counter for http requests
-    https_n = 0  # counter for https requests
+    def __init__(self):
+        print "proxyMiddleware init"
+        self.http_n = 0  # counter for http requests
+        self.https_n = 0  # counter for https requests
 
     # overwrite process request
     def process_request(self, request, spider):
+        print "process request"
         # Set the location of the proxy
         if request.url.startswith("http://"):
             n = self.http_n
