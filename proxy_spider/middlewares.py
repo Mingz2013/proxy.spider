@@ -37,6 +37,14 @@ class ProxyMiddleware(object):
             # logging.info('Squence - http: %s - %s:%s' % (n, ips['http'][n]['ip'], ips['http'][n]['port']))
             ProxyMiddleware.http_n = n + 1
 
+            # # Use the following lines if your proxy requires authentication
+            # proxy_user_pass = "USERNAME:PASSWORD"
+            # # setup basic authentication for the proxy
+            # encoded_user_pass = base64.b64encode(proxy_user_pass)
+            # request.headers['Proxy-Authorization'] = 'Basic ' + encoded_user_pass
+
+
+
         if request.url.startswith("https://"):
             n = ProxyMiddleware.https_n
             n = n if n < len(ips['https']) else 0
