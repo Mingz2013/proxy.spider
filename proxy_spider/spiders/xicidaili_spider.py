@@ -22,7 +22,6 @@ class XicidailiSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        success = 0
         for sel in response.xpath('//tr[@class="odd"]'):
             tds = sel.xpath('.//td')
 
@@ -34,15 +33,12 @@ class XicidailiSpider(scrapy.Spider):
             proxy_item['anonymous'] = tds[4].xpath('.//text()').extract_first()
             proxy_item['type'] = tds[5].xpath('.//text()').extract_first()
             proxy_item['time'] = tds[8].xpath('.//text()').extract_first()
-            # TODO check the proxy
 
-            success += 1
             yield proxy_item
 
-        if success > 0:
-            next_page = response.xpath('//a[@class="next_page"]/@href')
-            if next_page:
-                url = "http://www.xicidaili.com" + next_page.extract_first()
-                print url
-                request = scrapy.Request(url, self.parse)
-                yield request
+        next_page = response.xpath('//a[@class="next_page"]/@href')
+        if next_page:
+            url = "http://www.xicidaili.com" + next_page.extract_first()
+            print url
+            request = scrapy.Request(url, self.parse)
+            yield request

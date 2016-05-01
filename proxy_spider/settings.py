@@ -61,9 +61,11 @@ NEWSPIDER_MODULE = 'proxy_spider.spiders'
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'proxy_spider.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+   # 'proxy_spider.pipelines.SomePipeline': 300,
+    'proxy_spider.pipelines.DuplicatesPipeline': 300,
+    'proxy_spider.pipelines.MongoPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -83,3 +85,7 @@ NEWSPIDER_MODULE = 'proxy_spider.spiders'
 #HTTPCACHE_DIR='httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES=[]
 #HTTPCACHE_STORAGE='scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+# MONGO
+MONGO_URI = "localhost:27017"
+MONGO_DATABASE = "proxy"
