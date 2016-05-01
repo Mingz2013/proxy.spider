@@ -1,16 +1,10 @@
 # -*- coding:utf-8 -*-
 __author__ = 'zhaojm'
 
-import sys
-# from handledb import exec_sql
-import socket
+
 import urllib2
 
 from mongo import ProxyItemDB
-
-
-# dbapi = "MySQLdb"
-# kwargs = {'user': 'root', 'passwd': 'toor', 'db': 'ippool', 'host': 'localhost', 'use_unicode': True}
 
 
 # def counter(start_at=0):
@@ -27,19 +21,19 @@ from mongo import ProxyItemDB
 #     return incr
 
 
-def use_proxy(browser, proxy, url):
-    '''Open browser with proxy'''
-    # After visited transfer ip
-    profile = browser.profile
-    profile.set_preference('network.proxy.type', 1)
-    profile.set_preference('network.proxy.http', proxy[0])
-    profile.set_preference('network.proxy.http_port', int(proxy[1]))
-    profile.set_preference('permissions.default.image', 2)
-    profile.update_preferences()
-    browser.profile = profile
-    browser.get(url)
-    browser.implicitly_wait(30)
-    return browser
+# def use_proxy(browser, proxy, url):
+#     '''Open browser with proxy'''
+#     # After visited transfer ip
+#     profile = browser.profile
+#     profile.set_preference('network.proxy.type', 1)
+#     profile.set_preference('network.proxy.http', proxy[0])
+#     profile.set_preference('network.proxy.http_port', int(proxy[1]))
+#     profile.set_preference('permissions.default.image', 2)
+#     profile.update_preferences()
+#     browser.profile = profile
+#     browser.get(url)
+#     browser.implicitly_wait(30)
+#     return browser
 
 
 class Singleton(object):
@@ -61,30 +55,38 @@ class GetIp(Singleton):
         ProxyItemDB.remove_proxy_item(record["ip"])
         print record, " was deleted."
 
-    def judge_ip(self, record):
-        '''Judge IP can use or not'''
+    def check_ip(self, record):
         http_url = "http://www.baidu.com/"
         https_url = "https://www.alipay.com/"
-        proxy_type = record[2].lower()
+        proxy_type = record["type"].lower()
         url = http_url if proxy_type == "http" else https_url
-        proxy = "%s:%s" % (record[0], record[1])
+        proxy = "%s:%s" % (record["ip"], record["port"])
         try:
             req = urllib2.Request(url=url)
             req.set_proxy(proxy, proxy_type)
             response = urllib2.urlopen(req, timeout=30)
         except Exception, e:
             print "Request Error:", e
-            self.del_ip(record)
+            # self.del_ip(record)
             return False
         else:
             code = response.getcode()
-            if code >= 200 and code < 300:
+            if 200 <= code < 300:
                 print 'Effective proxy', record
                 return True
             else:
                 print 'Invalide proxy', record
-                self.del_ip(record)
+                # self.del_ip(record)
                 return False
+
+    def judge_ip(self, record):
+        '''Judge IP can use or not'''
+        ret = self.check_ip(record)
+        if ret:
+            return True
+        else:
+            self.del_ip(record)
+            return False
 
     def get_ips(self):
         print "Proxy getip was executed."

@@ -16,17 +16,17 @@ class ProxyMiddleware(object):
     def process_request(self, request, spider):
         # Set the location of the proxy
         if request.url.startswith("http://"):
-            n = ProxyMiddleware.http_n
+            n = self.http_n
             n = n if n < len(ips['http']) else 0
             request.meta['proxy'] = "http://%s:%d" % (
                 ips['http'][n][0], int(ips['http'][n][1]))
             logging.info('Squence - http: %s - %s' % (n, str(ips['http'][n])))
-            ProxyMiddleware.http_n = n + 1
+            self.http_n = n + 1
 
         if request.url.startswith("https://"):
-            n = ProxyMiddleware.https_n
+            n = self.https_n
             n = n if n < len(ips['https']) else 0
             request.meta['proxy'] = "https://%s:%d" % (
                 ips['https'][n][0], int(ips['https'][n][1]))
             logging.info('Squence - https: %s - %s' % (n, str(ips['https'][n])))
-            ProxyMiddleware.https_n = n + 1
+            self.https_n = n + 1
