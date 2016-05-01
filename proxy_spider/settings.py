@@ -43,9 +43,10 @@ NEWSPIDER_MODULE = 'proxy_spider.spiders'
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'proxy_spider.middlewares.MyCustomSpiderMiddleware': 543,
-#}
+SPIDER_MIDDLEWARES = {
+    # 'proxy_spider.middlewares.MyCustomSpiderMiddleware': 543,
+    'proxy_spider.middlewares.ProxyMiddleware': 543,
+}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
@@ -62,9 +63,9 @@ NEWSPIDER_MODULE = 'proxy_spider.spiders'
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   # 'proxy_spider.pipelines.SomePipeline': 300,
+    # 'proxy_spider.pipelines.SomePipeline': 300,
     'proxy_spider.pipelines.DuplicatesPipeline': 300,
-    'proxy_spider.pipelines.MongoPipeline': 300,
+    'proxy_spider.pipelines.MongoPipeline': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
