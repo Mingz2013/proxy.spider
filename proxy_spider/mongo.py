@@ -19,17 +19,17 @@ class ProxyItemDB(object):
 
     @staticmethod
     def get_proxy_items():
-        print "ProxyItemDB->get_proxy_items"
+        # print "ProxyItemDB->get_proxy_items"
         return proxy_db.proxy_items.find()
 
     @staticmethod
     def upsert_proxy_item(ip, item):
-        print "ProxyItemDB->upsert_proxy_item"
+        # print "ProxyItemDB->upsert_proxy_item"
         proxy_db.proxy_items.update({"ip": item.get("ip")}, item, True, True)
 
     @staticmethod
     def remove_proxy_item(ip):
-        print "ProxyItemDB->remove_proxy_item"
+        # print "ProxyItemDB->remove_proxy_item"
         proxy_db.proxy_items.remove({"ip": ip})
 
 
