@@ -3,10 +3,10 @@ __author__ = 'zhaojm'
 
 import base64
 import random
-from proxy import GetIp
+from proxy import ProxyHelper
 import logging
 
-ips = GetIp().get_ips()
+proxy_items = ProxyHelper.get_proxy_valid_items()
 
 
 class RandomUserAgentMiddleware(object):
@@ -31,10 +31,9 @@ class ProxyMiddleware(object):
         # Set the location of the proxy
         if request.url.startswith("http://"):
             n = ProxyMiddleware.http_n
-            n = n if n < len(ips['http']) else 0
+            n = n if n < len(proxy_items['http']) else 0
             request.meta['proxy'] = "http://%s:%d" % (
-                ips['http'][n]["ip"], int(ips['http'][n]["port"]))
-            # logging.info('Squence - http: %s - %s:%s' % (n, ips['http'][n]['ip'], ips['http'][n]['port']))
+                proxy_items['http'][n]["ip"], int(proxy_items['http'][n]["port"]))
             ProxyMiddleware.http_n = n + 1
 
             # # Use the following lines if your proxy requires authentication
@@ -43,12 +42,9 @@ class ProxyMiddleware(object):
             # encoded_user_pass = base64.b64encode(proxy_user_pass)
             # request.headers['Proxy-Authorization'] = 'Basic ' + encoded_user_pass
 
-
-
         if request.url.startswith("https://"):
             n = ProxyMiddleware.https_n
-            n = n if n < len(ips['https']) else 0
+            n = n if n < len(proxy_items['https']) else 0
             request.meta['proxy'] = "https://%s:%d" % (
-                ips['https'][n]["ip"], int(ips['https'][n]["port"]))
-            # logging.info('Squence - http: %s - %s:%s' % (n, ips['http'][n]['ip'], ips['http'][n]['port']))
+                proxy_items['https'][n]["ip"], int(proxy_items['https'][n]["port"]))
             ProxyMiddleware.https_n = n + 1

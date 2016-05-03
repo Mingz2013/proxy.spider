@@ -21,5 +21,6 @@ class ProxyItem(scrapy.Item):
     location = scrapy.Field()
     anonymous = scrapy.Field()
     type = scrapy.Field()
+    speed = scrapy.Field()
     time = scrapy.Field()
     pass

@@ -12,18 +12,21 @@ class XicidailiSpider(scrapy.Spider):
         "xicidaili.com"
     ]
 
-    start_urls = [
-        "http://www.xicidaili.com/nn/",     # 国内高匿代理
-        "http://www.xicidaili.com/nt/",     # 国内普通代理
-        "http://www.xicidaili.com/wn/",     # 国外高匿代理
-        "http://www.xicidaili.com/wt/",     # 国外普通代理
-        "http://www.xicidaili.com/qq/"      # SOCKS代理
-    ]
+    # start_urls = [
+    #     "http://ip84.com/dl"
+    # ]
+
+    def start_requests(self):
+        for i in ['nn', 'nt', 'wn', 'wt']:
+            for j in range(1, 10):   # page
+                url = "http://www.xicidaili.com/%s/%s" % (i, j)
+                yield scrapy.Request(url, self.parse)
 
     def parse(self, response):
+        # print "parse"
 
-        for sel in response.xpath('//tr[@class="odd"]'):
-            tds = sel.xpath('.//td')
+        for trs in response.xpath('//tr'):
+            tds = trs.xpath('.//td')
 
             proxy_item = ProxyItem()
             proxy_item['country'] = tds[0].xpath('.//img/@alt').extract_first()
@@ -36,9 +39,11 @@ class XicidailiSpider(scrapy.Spider):
 
             yield proxy_item
 
-        next_page = response.xpath('//a[@class="next_page"]/@href')
-        if next_page:
-            url = "http://www.xicidaili.com" + next_page.extract_first()
-            print url
-            request = scrapy.Request(url, self.parse)
-            yield request
+        # next_page = response.xpath('//a[@class="next_page"]/@href')
+        # if next_page:
+        #     url = response.urljoin(next_page.extract_first())
+        #     print "next_page:=", url
+        #     print url.split('/')[-1]
+        #     if int(url.split('/')[-1]) <= 6:
+        #         request = scrapy.Request(url, self.parse)
+        #         yield request

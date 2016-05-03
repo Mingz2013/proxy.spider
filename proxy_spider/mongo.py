@@ -23,13 +23,32 @@ class ProxyItemDB(object):
         return proxy_db.proxy_items.find()
 
     @staticmethod
-    def upsert_proxy_item(ip, port, item):
+    def upsert_proxy_item(item):
         # print "ProxyItemDB->upsert_proxy_item"
-        proxy_db.proxy_items.update({"ip": ip, "port": port}, item, True, True)
+        proxy_db.proxy_items.update({"ip": item['ip'], "port": item['port']}, item, True, True)
 
     @staticmethod
-    def remove_proxy_item(ip, port):
+    def remove_proxy_item(item):
         # print "ProxyItemDB->remove_proxy_item"
-        proxy_db.proxy_items.remove({"ip": ip, "port": port})
+        proxy_db.proxy_items.remove({"ip": item['ip'], "port": item['port']})
 
+
+class ProxyItemValidDB(object):
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def get_proxy_valid_items():
+        # print "ProxyItemDB->get_proxy_items"
+        return proxy_db.proxy_valid_items.find()
+
+    @staticmethod
+    def upsert_proxy_valid_item(item):
+        # print "ProxyItemDB->upsert_proxy_item"
+        proxy_db.proxy_valid_items.update({"ip": item['ip'], "port": item['port']}, item, True, True)
+
+    @staticmethod
+    def remove_proxy_valid_item(item):
+        # print "ProxyItemDB->remove_proxy_item"
+        proxy_db.proxy_valid_items.remove({"ip": item['ip'], "port": item['port']})
 
