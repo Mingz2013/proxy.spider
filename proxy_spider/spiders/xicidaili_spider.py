@@ -37,7 +37,7 @@ class XicidailiSpider(scrapy.Spider):
             # proxy_item['country'] = tds[0].xpath('.//img/@alt').extract_first().strip()
             proxy_item['ip'] = tds[1].xpath('.//text()').extract_first().strip()
             proxy_item['port'] = tds[2].xpath('.//text()').extract_first().strip()
-            proxy_item['location'] = tds[3].xpath('.//a/text()').extract_first().strip()
+            proxy_item['location'] = tds[3].xpath('.//a/text()').extract_first()
             proxy_item['anonymous'] = tds[4].xpath('.//text()').extract_first().strip()
             proxy_item['type'] = tds[5].xpath('.//text()').extract_first().strip()
             proxy_item['time'] = tds[8].xpath('.//text()').extract_first().strip()
