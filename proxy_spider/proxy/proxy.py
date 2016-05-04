@@ -60,8 +60,8 @@ class DumpAToB(object):
 
     def _thread_call_back(self, args):
         is_valid = self._is_valid_proxy_item(args)
-        if is_valid:
-            print "valid item: ", args
+        # if is_valid:
+        #     print "valid item: ", args
         self.thread_call_back(is_valid, args)
         pass
 
