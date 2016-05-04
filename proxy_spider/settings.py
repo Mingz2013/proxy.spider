@@ -87,7 +87,7 @@ COOKIES_ENABLED = False
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     # 'proxy_spider.middlewares.MyCustomDownloaderMiddleware': 543,
-    # 'proxy_spider.middlewares.ProxyMiddleware': 760,
+    'proxy_spider.middlewares.ProxyMiddleware': 760,
     'proxy_spider.middlewares.RandomUserAgentMiddleware': 410,
 }
 
@@ -130,8 +130,12 @@ AUTOTHROTTLE_DEBUG = False
 MONGO_URI = "localhost:27017"
 MONGO_DATABASE = "proxy"
 
+# LOG
 LOG_FILE = 'log/info.log'
 # CRITICAL、 ERROR、WARNING、INFO、DEBUG
 LOG_LEVEL = 'DEBUG'
 # 所有标准输出重定向到log
 LOG_STDOUT = True
+
+# 重试次数
+RETRY_TIMES = 10
