@@ -9,7 +9,7 @@ class ProxyHelper(object):
         pass
 
     @staticmethod
-    def get_proxy_valid_items():
+    def get_proxy_items_valid():
         try:
             proxy_items = ProxyItemsValidDB.get_proxy_items()
             print "proxy_items.count:=", proxy_items.count()

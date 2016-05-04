@@ -3,10 +3,10 @@ __author__ = 'zhaojm'
 
 import base64
 import random
-from proxy_helper import ProxyHelper
+from proxy_spider.proxy.proxy_helper import ProxyHelper
 import logging
 
-proxy_items = ProxyHelper.get_proxy_valid_items()
+proxy_items = ProxyHelper.get_proxy_items_valid()
 
 
 class RandomUserAgentMiddleware(object):

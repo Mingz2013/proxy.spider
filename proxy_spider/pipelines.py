@@ -6,12 +6,14 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 from scrapy.exceptions import DropItem
-from mongo import ProxyItemDB
-from proxy import ProxyHelper
+from proxy_spider.db.mongo import ProxyItemsDB
+
+
+# from proxy import ProxyHelper
 
 
 class ValidParamsPipeline(object):
-    def process_item(self, item ,spider):
+    def process_item(self, item, spider):
         try:
             if item["ip"] and item["port"] and (0 < int(item['port']) < 65535):
                 return item
@@ -32,17 +34,17 @@ class DuplicatesPipeline(object):
             return item
 
 
-class CheckProxyPipeline(object):
-    def process_item(self, item, spider):
-        # print "CheckProxyPipeline"
-        ret = ProxyHelper.check_proxy_item(item)
-        if ret:
-            return item
-        else:
-            raise DropItem("bad proxy: %s" % item)
+# class CheckProxyPipeline(object):
+#     def process_item(self, item, spider):
+#         # print "CheckProxyPipeline"
+#         ret = ProxyHelper.check_proxy_item(item)
+#         if ret:
+#             return item
+#         else:
+#             raise DropItem("bad proxy: %s" % item)
 
 
 class MongoPipeline(object):
     def process_item(self, item, spider):
-        ProxyItemDB.upsert_proxy_item(dict(item))
+        ProxyItemsDB.upsert_proxy_item(dict(item))
         return item
