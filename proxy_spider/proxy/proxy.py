@@ -146,7 +146,7 @@ class ValidProxyItemsJd(DumpAToB):
 
     def __init__(self):
         http_url = "http://www.jd.com"
-        https_url = "https://www.alipay.com/"
+        https_url = "https://www.jd.com/"
         DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
         pass
 
