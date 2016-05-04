@@ -40,7 +40,6 @@ class DumpAToB(object):
             # item类型和要爬取的url协议不同, 不可用
             return False
 
-        # TODO 写到这里了
         url = self.http_url if proxy_type == "http" else self.https_url
         proxy = "%s:%s" % (item["ip"], item["port"])
         try:
@@ -61,6 +60,8 @@ class DumpAToB(object):
 
     def _thread_call_back(self, args):
         is_valid = self._is_valid_proxy_item(args)
+        if is_valid:
+            print "valid item: ", args
         self.thread_call_back(is_valid, args)
         pass
 
@@ -85,7 +86,6 @@ class DumpAToB(object):
     def start_threadpool(self):
         try:
             self.pool.wait()
-            print "check over"
             return True
         except Exception, e:
             print e.message

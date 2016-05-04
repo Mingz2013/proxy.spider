@@ -12,9 +12,14 @@ class Command(ScrapyCommand):
         return 'Runs all of the spiders'
 
     def run(self, args, opts):
-        spider_loader = self.crawler_process.spider_loader
-        for spidername in args or spider_loader.list():
-            print "*********cralall spidername************" + spidername
-            self.crawler_process.crawl(spidername, **opts.spargs)
-
-        self.crawler_process.start()
+        try:
+            print "===========mc_crawlall run==================="
+            spider_loader = self.crawler_process.spider_loader
+            for spidername in args or spider_loader.list():
+                print "*********mc_crawlall spidername************" + spidername
+                self.crawler_process.crawl(spidername, **opts.spargs)
+            self.crawler_process.start()
+            print "===========mc_crawlall over==================="
+        except Exception, e:
+            print "===========mc_crawlall exception==================="
+            print e.message

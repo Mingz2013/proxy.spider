@@ -14,7 +14,10 @@ class Command(ScrapyCommand):
 
     def run(self, args, opts):
         try:
+            print "===========mc_dump_to_jd run==================="
             dump_to_jd = DumpProxyItemsValidToProxyItemsJd()
             dump_to_jd.start_threadpool()
+            print "===========mc_dump_to_jd over==================="
         except Exception, e:
+            print "===========mc_dump_to_jd exception==================="
             print e.message

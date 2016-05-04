@@ -14,7 +14,10 @@ class Command(ScrapyCommand):
 
     def run(self, args, opts):
         try:
+            print "===========mc_valid_valid run==================="
             valid = ValidProxyItemsValid()
             valid.start_threadpool()
+            print "===========mc_valid_valid over==================="
         except Exception, e:
+            print "===========mc_valid_valid exception==================="
             print e.message
