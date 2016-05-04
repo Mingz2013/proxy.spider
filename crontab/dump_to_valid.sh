@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-scrapy mc_dump_to_valid &
+cd /home/apps/proxy_spider
+scrapy mc_dump_to_valid

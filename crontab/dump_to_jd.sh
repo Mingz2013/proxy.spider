@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-scrapy mc_dump_to_jd &
+cd /home/apps/proxy_spider
+scrapy mc_dump_to_jd

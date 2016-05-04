@@ -131,11 +131,11 @@ MONGO_URI = "localhost:27017"
 MONGO_DATABASE = "proxy"
 
 # LOG
-# LOG_FILE = 'log/info.log'
+LOG_FILE = 'log/info.log'
 # CRITICAL、 ERROR、WARNING、INFO、DEBUG
-# LOG_LEVEL = 'DEBUG'
+LOG_LEVEL = 'DEBUG'
 # 所有标准输出重定向到log
-# LOG_STDOUT = True
+LOG_STDOUT = True
 
 # 重试次数
 RETRY_TIMES = 10
