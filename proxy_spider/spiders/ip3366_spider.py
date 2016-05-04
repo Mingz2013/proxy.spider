@@ -16,6 +16,10 @@ class Ip3366Spider(scrapy.Spider):
     #     "http://ip84.com/dl"
     # ]
 
+    custom_settings = {
+        'LOG_FILE': 'log/ip3366.log'
+    }
+
     def start_requests(self):
         for i in range(1, 4):
             for j in range(1, 10):   # page

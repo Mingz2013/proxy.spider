@@ -16,6 +16,10 @@ class XicidailiSpider(scrapy.Spider):
     #     "http://ip84.com/dl"
     # ]
 
+    custom_settings = {
+        'LOG_FILE': 'log/xicidaili.log'
+    }
+
     def start_requests(self):
         for i in ['nn', 'nt', 'wn', 'wt']:
             for j in range(1, 10):   # page

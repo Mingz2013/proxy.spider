@@ -16,6 +16,10 @@ class NianshaoSpider(scrapy.Spider):
     #     "http://ip84.com/dl"
     # ]
 
+    custom_settings = {
+        'LOG_FILE': 'log/nianshao.log'
+    }
+
     def start_requests(self):
         for i in [1, 2, 5]:
             for j in range(1, 10):   # page

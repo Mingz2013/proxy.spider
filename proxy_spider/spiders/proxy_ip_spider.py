@@ -16,6 +16,10 @@ class ProxyIpSpider(scrapy.Spider):
     #     "http://ip84.com/dl"
     # ]
 
+    custom_settings = {
+        'LOG_FILE': 'log/proxy_ip.log'
+    }
+
     def start_requests(self):
         for i in ['guonei']:
             for j in range(1, 30):   # page

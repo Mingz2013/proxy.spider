@@ -16,6 +16,10 @@ class _66IPSpider(scrapy.Spider):
     #     "http://www.66ip.cn/areaindex_1/1.html"
     # ]
 
+    custom_settings = {
+        'LOG_FILE': 'log/66ip.log'
+    }
+
     def start_requests(self):
         for i in range(1, 34):
             for j in range(1, 10):   # page
