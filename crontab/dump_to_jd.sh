@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-scrapy dump_to_jd &
+scrapy mc_dump_to_jd &

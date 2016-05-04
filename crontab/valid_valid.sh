@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-scrapy valid_valid &
+scrapy mc_valid_valid &

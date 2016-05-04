@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-scrapy valid_jd &
+scrapy mc_valid_jd &

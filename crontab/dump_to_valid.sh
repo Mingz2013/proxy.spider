@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-scrapy dump_to_valid &
+scrapy mc_dump_to_valid &
