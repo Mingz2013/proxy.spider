@@ -97,7 +97,9 @@ class DumpProxyItemsToProxyItemsValid(DumpAToB):
     验证爬虫爬取的代理到已验证代理中
     '''
     def __init__(self):
-        DumpAToB.__init__(self)
+        http_url = "http://www.baidu.com/"
+        https_url = "https://www.alipay.com/"
+        DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
         pass
 
     def get_argss(self):
@@ -113,12 +115,55 @@ class DumpProxyItemsToProxyItemsValid(DumpAToB):
         pass
 
 
+class ValidProxyItemsValid(DumpAToB):
+    '''
+    重复 验证已验证代理
+    '''
+
+    def __init__(self):
+        http_url = "http://www.baidu.com/"
+        https_url = "https://www.alipay.com/"
+        DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
+        pass
+
+    def get_argss(self):
+        return ProxyItemsValidDB.get_proxy_items()
+
+    def get_thread_num(self):
+        return 60
+
+    def thread_call_back(self, is_valid, item):
+        if not is_valid:
+            ProxyItemsValidDB.remove_proxy_item(item)
+
+
+class ValidProxyItemsJd(DumpAToB):
+    '''
+    重复 验证已验证jd代理
+    '''
+
+    def __init__(self):
+        http_url = "http://www.jd.com"
+        DumpAToB.__init__(self, http_url=http_url)
+        pass
+
+    def get_argss(self):
+        return ProxyItemsJdDB.get_proxy_items()
+
+    def get_thread_num(self):
+        return 60
+
+    def thread_call_back(self, is_valid, item):
+        if not is_valid:
+            ProxyItemsJdDB.remove_proxy_item(item)
+
+
 class DumpProxyItemsValidToProxyItemsSite(DumpAToB):
     '''
     验证爬取单个网站可用的代理ip
     '''
     def __init__(self, http_url=None, https_url=None):
-        DumpAToB.__init__(self, http_url, https_url)
+        DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
         pass
 
     def get_argss(self):
