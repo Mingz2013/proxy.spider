@@ -9,6 +9,9 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
+
+import datetime
+
 BOT_NAME = 'proxy_spider'
 
 SPIDER_MODULES = ['proxy_spider.spiders']
@@ -131,7 +134,7 @@ MONGO_URI = "localhost:27017"
 MONGO_DATABASE = "proxy"
 
 # LOG
-LOG_FILE = 'log/info.log'
+LOG_FILE = 'log/%s.log' % datetime.datetime.now().strftime('%Y-%m-%d')
 # CRITICAL、 ERROR、WARNING、INFO、DEBUG
 LOG_LEVEL = 'INFO'
 # 所有标准输出重定向到log
