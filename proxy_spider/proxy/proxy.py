@@ -80,7 +80,7 @@ class DumpAToB(object):
             requests = threadpool.makeRequests(self._thread_call_back, self.get_argss())
             [self.pool.putRequest(req) for req in requests]
         except Exception, e:
-            print e.message
+            print "init threadpool: ", e.message
         pass
 
     def start_threadpool(self):
@@ -88,7 +88,7 @@ class DumpAToB(object):
             self.pool.wait()
             return True
         except Exception, e:
-            print e.message
+            print "start threadpool: ", e.message
             return False
 
 
