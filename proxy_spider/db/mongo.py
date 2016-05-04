@@ -19,7 +19,7 @@ class ProxyItemsDB(object):
 
     @staticmethod
     def get_proxy_items():
-        return proxy_db.proxy_items.find()
+        return proxy_db.proxy_items.find({}, {'_id': 0})
 
     @staticmethod
     def upsert_proxy_item(item):
@@ -36,7 +36,7 @@ class ProxyItemsValidDB(object):
 
     @staticmethod
     def get_proxy_items():
-        return proxy_db.proxy_items_valid.find()
+        return proxy_db.proxy_items_valid.find({}, {'_id': 0})
 
     @staticmethod
     def upsert_proxy_item(item):
@@ -53,7 +53,7 @@ class ProxyItemsJdDB(object):
 
     @staticmethod
     def get_proxy_items():
-        return proxy_db.proxy_items_jd.find()
+        return proxy_db.proxy_items_jd.find({}, {'_id': 0})
 
     @staticmethod
     def upsert_proxy_item(item):
