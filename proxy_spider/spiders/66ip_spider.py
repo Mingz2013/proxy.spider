@@ -35,11 +35,11 @@ class _66IPSpider(scrapy.Spider):
                 continue
             proxy_item = ProxyItem()
             # proxy_item['country'] = tds[0].xpath('.//img/@alt').extract_first()
-            proxy_item['ip'] = tds[0].xpath('.//text()').extract_first()
-            proxy_item['port'] = tds[1].xpath('.//text()').extract_first()
-            proxy_item['location'] = tds[2].xpath('.//text()').extract_first()
-            proxy_item['anonymous'] = tds[3].xpath('.//text()').extract_first()
+            proxy_item['ip'] = tds[0].xpath('.//text()').extract_first().strip()
+            proxy_item['port'] = tds[1].xpath('.//text()').extract_first().strip()
+            proxy_item['location'] = tds[2].xpath('.//text()').extract_first().strip()
+            proxy_item['anonymous'] = tds[3].xpath('.//text()').extract_first().strip()
             proxy_item['type'] = 'HTTP'
-            proxy_item['time'] = tds[4].xpath('.//text()').extract_first()
+            proxy_item['time'] = tds[4].xpath('.//text()').extract_first().strip()
 
             yield proxy_item
