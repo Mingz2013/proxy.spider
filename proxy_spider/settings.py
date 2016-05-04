@@ -139,3 +139,6 @@ LOG_STDOUT = True
 
 # 重试次数
 RETRY_TIMES = 10
+
+#
+COMMANDS_MODULE = 'proxy_spider.commands'
