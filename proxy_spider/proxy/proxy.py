@@ -86,11 +86,16 @@ class DumpAToB(object):
         try:
             self.pool.wait()
             print "check over"
+            return True
         except Exception, e:
             print e.message
+            return False
 
 
 class DumpProxyItemsToProxyItemsValid(DumpAToB):
+    '''
+    验证爬虫爬取的代理到已验证代理中
+    '''
     def __init__(self):
         DumpAToB.__init__(self)
         pass
@@ -109,6 +114,9 @@ class DumpProxyItemsToProxyItemsValid(DumpAToB):
 
 
 class DumpProxyItemsValidToProxyItemsSite(DumpAToB):
+    '''
+    验证爬取单个网站可用的代理ip
+    '''
     def __init__(self, http_url=None, https_url=None):
         DumpAToB.__init__(self, http_url, https_url)
         pass
@@ -128,6 +136,9 @@ class DumpProxyItemsValidToProxyItemsSite(DumpAToB):
 
 
 class DumpProxyItemsValidToProxyItemsJd(DumpProxyItemsValidToProxyItemsSite):
+    '''
+    验证爬取jd可用的代理ip
+    '''
     def __init__(self):
         http_url = "http://www.jd.com/"
         DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url=http_url)

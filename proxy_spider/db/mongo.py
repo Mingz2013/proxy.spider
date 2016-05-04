@@ -7,7 +7,7 @@ import datetime
 import time
 import threading
 
-from settings import MONGO_URI, MONGO_DATABASE
+from proxy_spider.settings import MONGO_URI, MONGO_DATABASE
 
 mongo_client = pymongo.MongoClient(MONGO_URI)
 proxy_db = mongo_client[MONGO_DATABASE]
