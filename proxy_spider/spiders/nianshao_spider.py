@@ -22,7 +22,7 @@ class NianshaoSpider(scrapy.Spider):
 
     def start_requests(self):
         for i in [1, 2, 5]:
-            for j in range(1, 10):   # page
+            for j in range(1, 20):  # page
                 url = "http://www.nianshao.me/?stype=%s&page=%s" % (i, j)
                 yield scrapy.Request(url, self.parse)
 

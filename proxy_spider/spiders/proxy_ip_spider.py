@@ -22,7 +22,7 @@ class ProxyIpSpider(scrapy.Spider):
 
     def start_requests(self):
         for i in ['guonei']:
-            for j in range(1, 30):   # page
+            for j in range(1, 40):  # page
                 url = "http://www.proxy-ip.cn/%s/%s" % (i, j)
                 yield scrapy.Request(url, self.parse)
 

@@ -22,7 +22,7 @@ class _66IPSpider(scrapy.Spider):
 
     def start_requests(self):
         for i in range(1, 34):
-            for j in range(1, 10):   # page
+            for j in range(1, 5):  # page
                 url = "http://www.66ip.cn/areaindex_%s/%s.html" % (i, j)
                 yield scrapy.Request(url, self.parse)
 
