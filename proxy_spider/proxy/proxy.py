@@ -22,7 +22,7 @@ class DumpAToB(object):
         self._init_threadpool()
         pass
 
-    def is_valid_proxy_item(self, item):
+    def _is_valid_proxy_item(self, item):
         '''
         检查item是否可用,通过传入的URl去检查
         :param item:
@@ -34,6 +34,12 @@ class DumpAToB(object):
         proxy_type = item["type"].lower()
         if self.https_url and proxy_type == 'https':
             pass
+        elif self.http_url and proxy_type == 'http':
+            pass
+        else:
+            # item类型和要爬取的url协议不同, 不可用
+            return False
+
         # TODO 写到这里了
         url = self.http_url if proxy_type == "http" else self.https_url
         proxy = "%s:%s" % (item["ip"], item["port"])
@@ -50,7 +56,12 @@ class DumpAToB(object):
             else:
                 return False
 
-    def thread_call_back(self, args):
+    def thread_call_back(self, is_valid, item):
+        pass
+
+    def _thread_call_back(self, args):
+        is_valid = self._is_valid_proxy_item(args)
+        self.thread_call_back(is_valid, args)
         pass
 
     def get_argss(self):
@@ -65,7 +76,7 @@ class DumpAToB(object):
     def _init_threadpool(self):
         try:
             self.pool = threadpool.ThreadPool(self.get_thread_num())
-            requests = threadpool.makeRequests(self.thread_call_back, self.get_argss())
+            requests = threadpool.makeRequests(self._thread_call_back, self.get_argss())
             [self.pool.putRequest(req) for req in requests]
         except Exception, e:
             print e.message
@@ -90,11 +101,10 @@ class DumpProxyItemsToProxyItemsValid(DumpAToB):
     def get_thread_num(self):
         return 60
 
-    def thread_call_back(self, args):
-        ret = self.is_valid_proxy_item(args)
-        if ret:
-            ProxyItemsValidDB.upsert_proxy_item(args)
-        ProxyItemsDB.remove_proxy_item(args)
+    def thread_call_back(self, is_valid, item):
+        if is_valid:
+            ProxyItemsValidDB.upsert_proxy_item(item)
+        ProxyItemsDB.remove_proxy_item(item)
         pass
 
 
@@ -112,16 +122,15 @@ class DumpProxyItemsValidToProxyItemsSite(DumpAToB):
     def upsert_proxy_item(self, item):
         pass
 
-    def thread_call_back(self, args):
-        ret = self.is_valid_proxy_item(args)
-        if ret:
-            self.upsert_proxy_item(args)
+    def thread_call_back(self, is_valid, item):
+        if is_valid:
+            self.upsert_proxy_item(item)
 
 
 class DumpProxyItemsValidToProxyItemsJd(DumpProxyItemsValidToProxyItemsSite):
     def __init__(self):
         http_url = "http://www.jd.com/"
-        DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url)
+        DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url=http_url)
 
     def upsert_proxy_item(self, item):
         ProxyItemsJdDB.upsert_proxy_item(item)
