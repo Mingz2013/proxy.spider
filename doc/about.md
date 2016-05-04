@@ -14,3 +14,12 @@
 
 ---
 
+# 定时任务
+
+		1  2  *  *  * root       /home/apps/proxy_spider/crontab/scrawl.sh
+		30 *  *  *  * root       /home/apps/proxy_spider/crontab/dump_to_valid.sh
+		1  *  *  *  * root       /home/apps/proxy_spider/crontab/valid_valid.sh
+		30 *  *  *  * root       /home/apps/proxy_spider/crontab/valid_valid.sh
+		1  6  *  *  * root       /home/apps/proxy_spider/crontab/dump_to_jd.sh
+		30 *  *  *  * root       /home/apps/proxy_spider/crontab/valid_jd.sh
+
