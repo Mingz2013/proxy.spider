@@ -31,15 +31,16 @@ class MimiipSpider(scrapy.Spider):
 
         for trs in response.xpath('//tr'):
             tds = trs.xpath('.//td')
-
+            if len(tds) < 7:
+                continue
             proxy_item = ProxyItem()
             # proxy_item['country'] = tds[0].xpath('.//img/@alt').extract_first()
             proxy_item['ip'] = tds[0].xpath('.//text()').extract_first()
             proxy_item['port'] = tds[1].xpath('.//text()').extract_first()
-            proxy_item['location'] = tds[3].xpath('.//a/text()').extract_first()
-            proxy_item['anonymous'] = tds[4].xpath('.//text()').extract_first()
-            proxy_item['type'] = tds[5].xpath('.//text()').extract_first()
-            # proxy_item['speed'] = tds[6].xpath('.//text()').extract_first()
-            proxy_item['time'] = tds[7].xpath('.//text()').extract_first()
+            proxy_item['location'] = tds[2].xpath('.//a/text()').extract_first()
+            proxy_item['anonymous'] = tds[3].xpath('.//text()').extract_first()
+            proxy_item['type'] = tds[4].xpath('.//text()').extract_first()
+            # proxy_item['speed'] = tds[5].xpath('.//text()').extract_first()
+            proxy_item['time'] = tds[6].xpath('.//text()').extract_first()
 
             yield proxy_item

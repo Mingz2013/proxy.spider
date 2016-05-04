@@ -31,7 +31,8 @@ class _66IPSpider(scrapy.Spider):
 
         for trs in response.xpath('//tr'):
             tds = trs.xpath('.//td')
-
+            if len(tds) < 5:
+                continue
             proxy_item = ProxyItem()
             # proxy_item['country'] = tds[0].xpath('.//img/@alt').extract_first()
             proxy_item['ip'] = tds[0].xpath('.//text()').extract_first()
