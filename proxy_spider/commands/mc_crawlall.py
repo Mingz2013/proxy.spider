@@ -6,6 +6,7 @@ from scrapy.commands import ScrapyCommand
 
 class Command(ScrapyCommand):
     requires_project = True
+    default_settings = {'LOG_ENABLED': True}
 
     def short_desc(self):
         return 'Runs all of the spiders'
