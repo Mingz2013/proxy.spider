@@ -39,7 +39,7 @@ class XsdailiSpider(scrapy.Spider):
             proxy_item['port'] = tds[1].xpath('.//text()').extract_first().strip()
             proxy_item['anonymous'] = tds[2].xpath('.//text()').extract_first().strip()
             proxy_item['type'] = tds[3].xpath('.//text()').extract_first().strip()
-            proxy_item['location'] = tds[5].xpath('.//a/text()').extract_first().strip()
+            proxy_item['location'] = tds[5].xpath('.//a/text()').extract_first()
             proxy_item['speed'] = tds[7].xpath('.//text()').extract_first().strip()
             proxy_item['time'] = tds[8].xpath('.//text()').extract_first().strip()
 
