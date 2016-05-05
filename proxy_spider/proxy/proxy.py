@@ -82,7 +82,7 @@ class DumpAToB(object):
             thread_num = self.get_thread_num()
             argss = self.get_argss()
             print "thread_num: ", thread_num
-            print "items num: ", len(argss)
+            print "items num: ", argss.count()
             self.pool = threadpool.ThreadPool(thread_num)
             requests = threadpool.makeRequests(self._thread_call_back, argss)
             [self.pool.putRequest(req) for req in requests]
