@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 cd /home/apps/proxy_spider
-scrapy mc_crawlall
+scrapy mc_crawlall &
