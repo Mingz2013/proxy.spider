@@ -27,10 +27,11 @@ class DuplicatesPipeline(object):
         self.ips_seen = set()
 
     def process_item(self, item, spider):
-        if item.get('ip') in self.ips_seen:
-            raise DropItem("Duplicate item found: %s:%s" % (item.get("ip"), item.get("port")))
+        ip_port = '%s:%s' % (item['ip'], item['port'])
+        if ip_port in self.ips_seen:
+            raise DropItem("Duplicate item found: %s" % ip_port)
         else:
-            self.ips_seen.add(item.get('ip'))
+            self.ips_seen.add(ip_port)
             return item
 
 

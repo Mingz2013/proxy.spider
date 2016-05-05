@@ -38,7 +38,7 @@ class DumpAToB(object):
             pass
         else:
             # item类型和要爬取的url协议不同, 不可用
-            print "item is not in (%s, %s)" % (self.http_url, self.https_url)
+            print "item type not valid: proxy type: %s" % proxy_type
             return False
 
         url = self.http_url if proxy_type == "http" else self.https_url
