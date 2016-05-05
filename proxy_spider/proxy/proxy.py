@@ -4,7 +4,7 @@ __author__ = 'zhaojm'
 import urllib2
 import threadpool
 
-from proxy_spider.db.mongo import ProxyItemsDB, ProxyItemsValidDB, ProxyItemsJdDB
+from proxy_spider.db.mongo import ProxyItemsDB, ProxyItemsValidDB, ProxyItemsJdDB, ProxyItemsDropDB
 
 
 class DumpAToB(object):
@@ -115,9 +115,14 @@ class DumpProxyItemsToProxyItemsValid(DumpAToB):
     def get_thread_num(self):
         return 60
 
+    def get_timeout(self):
+        return 20
+
     def thread_call_back(self, is_valid, item):
         if is_valid:
             ProxyItemsValidDB.upsert_proxy_item(item)
+        else:
+            ProxyItemsDropDB.upsert_proxy_item(item)
         ProxyItemsDB.remove_proxy_item(item)
         pass
 
@@ -142,6 +147,33 @@ class ValidProxyItemsValid(DumpAToB):
     def thread_call_back(self, is_valid, item):
         if not is_valid:
             ProxyItemsValidDB.remove_proxy_item(item)
+            ProxyItemsDropDB.upsert_proxy_item(item)
+
+
+class ValidProxyItemsDrop(DumpAToB):
+    '''
+    重复 验证 已丢弃的代理,再给一次机会
+    '''
+
+    def __init__(self):
+        http_url = "http://www.baidu.com/"
+        https_url = "https://www.baidu.com/"
+        DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
+        pass
+
+    def get_argss(self):
+        return ProxyItemsDropDB.get_proxy_items()
+
+    def get_thread_num(self):
+        return 60
+
+    def get_timeout(self):
+        return 20
+
+    def thread_call_back(self, is_valid, item):
+        if is_valid:
+            ProxyItemsValidDB.upsert_proxy_item(item)
+        ProxyItemsDropDB.remove_proxy_item(item)
 
 
 class ValidProxyItemsJd(DumpAToB):
@@ -164,6 +196,7 @@ class ValidProxyItemsJd(DumpAToB):
     def thread_call_back(self, is_valid, item):
         if not is_valid:
             ProxyItemsJdDB.remove_proxy_item(item)
+            ProxyItemsDropDB.upsert_proxy_item(item)
 
 
 class DumpProxyItemsValidToProxyItemsSite(DumpAToB):

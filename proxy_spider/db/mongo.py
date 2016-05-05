@@ -43,6 +43,23 @@ class ProxyItemsValidDB(object):
         proxy_db.proxy_items_valid.remove({"ip": item['ip'], "port": item['port']})
 
 
+class ProxyItemsDropDB(object):
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def get_proxy_items():
+        return proxy_db.proxy_items_drop.find({}, {'_id': 0})
+
+    @staticmethod
+    def upsert_proxy_item(item):
+        proxy_db.proxy_items_drop.update({"ip": item['ip'], "port": item['port']}, item, True, True)
+
+    @staticmethod
+    def remove_proxy_item(item):
+        proxy_db.proxy_items_drop.remove({"ip": item['ip'], "port": item['port']})
+
+
 class ProxyItemsJdDB(object):
     def __init__(self):
         pass
