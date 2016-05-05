@@ -131,7 +131,7 @@ AUTOTHROTTLE_DEBUG = False
 
 # MONGO
 MONGO_URI = "localhost:27017"
-MONGO_DATABASE = "proxy"
+MONGO_PROXY_DB = "proxy"
 
 # LOG
 LOG_FILE = 'log/%s.log' % datetime.datetime.now().strftime('%Y-%m-%d')

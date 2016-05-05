@@ -1,16 +1,12 @@
 # -*- coding:utf-8 -*-
 __author__ = 'zhaojm'
 
-import os
 import pymongo
-import datetime
-import time
-import threading
 
-from proxy_spider.settings import MONGO_URI, MONGO_DATABASE
+from proxy_spider.settings import MONGO_URI, MONGO_PROXY_DB
 
 mongo_client = pymongo.MongoClient(MONGO_URI)
-proxy_db = mongo_client[MONGO_DATABASE]
+proxy_db = mongo_client[MONGO_PROXY_DB]
 
 
 class ProxyItemsDB(object):

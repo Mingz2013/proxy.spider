@@ -17,9 +17,9 @@ class ValidParamsPipeline(object):
         try:
             if item["ip"] and item["port"] and (0 < int(item['port']) < 65535):
                 return item
-            raise DropItem("params not Valid: %" % item)
+            raise DropItem("params not Valid: %s:%s" % (item.get("ip"), item.get("port")))
         except Exception, e:
-            raise DropItem("params not Valid: %" % item)
+            raise DropItem("params not Valid: %s:%s" % (item.get("ip"), item.get("port")))
 
 
 class DuplicatesPipeline(object):
@@ -27,10 +27,10 @@ class DuplicatesPipeline(object):
         self.ips_seen = set()
 
     def process_item(self, item, spider):
-        if item['ip'] in self.ips_seen:
-            raise DropItem("Duplicate item found: %s" % item)
+        if item.get('ip') in self.ips_seen:
+            raise DropItem("Duplicate item found: %s:%s" % (item.get("ip"), item.get("port")))
         else:
-            self.ips_seen.add(item['ip'])
+            self.ips_seen.add(item.get('ip'))
             return item
 
 

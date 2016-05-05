@@ -38,6 +38,7 @@ class DumpAToB(object):
             pass
         else:
             # item类型和要爬取的url协议不同, 不可用
+            print "item is not in (%s, %s)" % (self.http_url, self.https_url)
             return False
 
         url = self.http_url if proxy_type == "http" else self.https_url
@@ -61,8 +62,8 @@ class DumpAToB(object):
     def _thread_call_back(self, args):
         try:
             is_valid = self._is_valid_proxy_item(args)
-            # if is_valid:
-            #     print "valid item: ", args
+            if is_valid:
+                print "valid item: %s:%s" % (args['ip'], args['port'])
             self.thread_call_back(is_valid, args)
         except Exception, e:
             print "thread_call_back: ", e.message
@@ -74,12 +75,16 @@ class DumpAToB(object):
         return 1
 
     def get_timeout(self):
-        return 5
+        return 10
 
     def _init_threadpool(self):
         try:
-            self.pool = threadpool.ThreadPool(self.get_thread_num())
-            requests = threadpool.makeRequests(self._thread_call_back, self.get_argss())
+            thread_num = self.get_thread_num()
+            argss = self.get_argss()
+            print "thread_num: ", thread_num
+            print "items num: ", len(argss)
+            self.pool = threadpool.ThreadPool(thread_num)
+            requests = threadpool.makeRequests(self._thread_call_back, argss)
             [self.pool.putRequest(req) for req in requests]
         except Exception, e:
             print "init threadpool: ", e.message
@@ -100,7 +105,7 @@ class DumpProxyItemsToProxyItemsValid(DumpAToB):
     '''
     def __init__(self):
         http_url = "http://www.baidu.com/"
-        https_url = "https://www.alipay.com/"
+        https_url = "https://www.baidu.com/"
         DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
         pass
 
@@ -124,7 +129,7 @@ class ValidProxyItemsValid(DumpAToB):
 
     def __init__(self):
         http_url = "http://www.baidu.com/"
-        https_url = "https://www.alipay.com/"
+        https_url = "https://www.baidu.com/"
         DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
         pass
 
@@ -189,7 +194,8 @@ class DumpProxyItemsValidToProxyItemsJd(DumpProxyItemsValidToProxyItemsSite):
     '''
     def __init__(self):
         http_url = "http://www.jd.com/"
-        DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url=http_url)
+        https_url = "https://www.jd.com/"
+        DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url=http_url, https_url=https_url)
 
     def upsert_proxy_item(self, item):
         ProxyItemsJdDB.upsert_proxy_item(item)
