@@ -62,8 +62,8 @@ class DumpAToB(object):
     def _thread_call_back(self, args):
         try:
             is_valid = self._is_valid_proxy_item(args)
-            if is_valid:
-                print "valid item: %s:%s" % (args['ip'], args['port'])
+            # if is_valid:
+            #     print "valid item: %s:%s" % (args['ip'], args['port'])
             self.thread_call_back(is_valid, args)
         except Exception, e:
             print "thread_call_back: ", e.message
