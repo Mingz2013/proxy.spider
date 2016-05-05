@@ -11,6 +11,7 @@
 - 定时验证proxy_items_valid
 - 定时验证proxy_items_valid, 放到proxy_items_jd
 - 定时验证proxy_items_jd
+- 没通过验证的放到drop里,再次验证一次
 
 ---
 
