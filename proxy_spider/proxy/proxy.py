@@ -75,7 +75,7 @@ class DumpAToB(object):
         return 1
 
     def get_timeout(self):
-        return 10
+        return 20
 
     def _init_threadpool(self):
         try:
