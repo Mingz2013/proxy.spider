@@ -9,14 +9,25 @@ class ProxyHelper(object):
         pass
 
     @staticmethod
-    def get_proxy_items_valid():
+    def get_proxy_items_valid_type_http():
         try:
             proxy_items = ProxyItemsValidDB.get_proxy_items()
             print "proxy_items.count:=", proxy_items.count()
-            http = [h for h in proxy_items if h["type"] == "HTTP"]
-            https = [h for h in proxy_items if h["type"] == "HTTPS"]
-            print "Http: ", len(http), "Https: ", len(https)
-            return {"http": http, "https": https}
+            http = [h for h in proxy_items if h["type"].find("HTTP") != -1]
+            print "Https: ", len(http)
+            return http
         except Exception, e:
             print e.message
-            return {}
+            return []
+
+    @staticmethod
+    def get_proxy_items_valid_type_https():
+        try:
+            proxy_items = ProxyItemsValidDB.get_proxy_items()
+            print "proxy_items.count:=", proxy_items.count()
+            https = [h for h in proxy_items if h["type"].find("HTTPS") != -1]
+            print "Https: ", len(https)
+            return https
+        except Exception, e:
+            print e.message
+            return []

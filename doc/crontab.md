@@ -9,6 +9,7 @@
 		# |  |  |  |  |
 		# *  *  *  *  * user-name  command to be executed
 		  1  2  *  *  * root       /home/apps/proxy_spider/crontab/crawlall.sh
+		  40 *  *  *  * root       /home/apps/proxy_spider/crontab/crawl_proxy_api.sh
 		  30 *  *  *  * root       /home/apps/proxy_spider/crontab/dump_to_valid.sh
 		  1  *  *  *  * root       /home/apps/proxy_spider/crontab/valid_valid.sh
 		  20 *  *  *  * root       /home/apps/proxy_spider/crontab/valid_drop.sh

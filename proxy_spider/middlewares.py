@@ -6,8 +6,6 @@ import random
 from proxy_spider.proxy.proxy_helper import ProxyHelper
 import logging
 
-proxy_items = ProxyHelper.get_proxy_items_valid()
-
 
 class RandomUserAgentMiddleware(object):
     """Randomly rotate user agents based on a list of predefined ones"""
@@ -27,13 +25,19 @@ class ProxyMiddleware(object):
     http_n = 0
     https_n = 0
 
+    proxy_items_http = ProxyHelper.get_proxy_items_valid_type_http()
+    proxy_items_https = ProxyHelper.get_proxy_items_valid_type_https()
+
     def process_request(self, request, spider):
         # Set the location of the proxy
         if request.url.startswith("http://"):
             n = ProxyMiddleware.http_n
-            n = n if n < len(proxy_items['http']) else 0
+            if n >= len(ProxyMiddleware.proxy_items_http):
+                ProxyMiddleware.proxy_items_http = ProxyHelper.get_proxy_items_valid_type_http()
+                n = 0
+
             request.meta['proxy'] = "http://%s:%d" % (
-                proxy_items['http'][n]["ip"], int(proxy_items['http'][n]["port"]))
+                ProxyMiddleware.proxy_items_http[n]["ip"], int(ProxyMiddleware.proxy_items_http[n]["port"]))
             ProxyMiddleware.http_n = n + 1
 
             # # Use the following lines if your proxy requires authentication
@@ -44,7 +48,10 @@ class ProxyMiddleware(object):
 
         if request.url.startswith("https://"):
             n = ProxyMiddleware.https_n
-            n = n if n < len(proxy_items['https']) else 0
+            if n >= len(ProxyMiddleware.proxy_items_https):
+                ProxyMiddleware.proxy_items_https = ProxyHelper.get_proxy_items_valid_type_https()
+                n = 0
+
             request.meta['proxy'] = "https://%s:%d" % (
-                proxy_items['https'][n]["ip"], int(proxy_items['https'][n]["port"]))
+                ProxyMiddleware.proxy_items_http[n]["ip"], int(ProxyMiddleware.proxy_items_http[n]["port"]))
             ProxyMiddleware.https_n = n + 1

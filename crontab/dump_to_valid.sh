@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 cd /home/apps/proxy_spider
-scrapy mc_dump_to_valid &
+dt=$(date "+%Y-%m-%d")
+path_to_log="log/""$dt""_dump_to_jd.log"
+echo $path_to_log
+scrapy mc_dump_to_valid -s LOG_FILE=$path_to_log &
