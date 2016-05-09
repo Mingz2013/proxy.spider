@@ -13,7 +13,7 @@ class ProxyHelper(object):
         try:
             proxy_items = ProxyItemsValidDB.get_proxy_items()
             print "proxy_items.count:=", proxy_items.count()
-            http = [h for h in proxy_items if h["type"].find("HTTP") != -1]
+            http = [h for h in proxy_items if h["type"].lower().find("http") > 0]
             print "Https: ", len(http)
             return http
         except Exception, e:
@@ -25,7 +25,7 @@ class ProxyHelper(object):
         try:
             proxy_items = ProxyItemsValidDB.get_proxy_items()
             print "proxy_items.count:=", proxy_items.count()
-            https = [h for h in proxy_items if h["type"].find("HTTPS") != -1]
+            https = [h for h in proxy_items if h["type"].lower().find("https") > 0]
             print "Https: ", len(https)
             return https
         except Exception, e:

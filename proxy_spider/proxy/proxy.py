@@ -22,7 +22,7 @@ class DumpAToB(object):
         self._init_threadpool()
         pass
 
-    def _is_valid_proxy_item(self, item):
+    def _is_valid_proxy_item_http(self, item):
         '''
         检查item是否可用,通过传入的URl去检查
         :param item:
@@ -32,39 +32,67 @@ class DumpAToB(object):
         '''
 
         proxy_type = item["type"].lower()
-        if self.https_url and proxy_type.find('https') != -1:
-            pass
-        elif self.http_url and proxy_type.find('http') != -1:
+
+        if self.http_url and proxy_type.find('http') != -1:
+            proxy = "%s:%s" % (item["ip"], item["port"])
+            try:
+                req = urllib2.Request(url=self.http_url)
+                req.set_proxy(proxy, proxy_type)
+                response = urllib2.urlopen(req, timeout=self.get_timeout())
+            except Exception, e:
+                return False
+            else:
+                code = response.getcode()
+                if 200 <= code < 300:
+                    return True
+                else:
+                    return False
             pass
         else:
             # item类型和要爬取的url协议不同, 不可用
-            print "item type not valid: proxy type: %s" % proxy_type
+            # print "item type not valid: proxy type: %s" % proxy_type
             return False
 
-        url = self.https_url if proxy_type.find("https") != -1 else self.http_url
-        proxy = "%s:%s" % (item["ip"], item["port"])
-        try:
-            req = urllib2.Request(url=url)
-            req.set_proxy(proxy, proxy_type)
-            response = urllib2.urlopen(req, timeout=self.get_timeout())
-        except Exception, e:
-            return False
-        else:
-            code = response.getcode()
-            if 200 <= code < 300:
-                return True
-            else:
+    def _is_valid_proxy_item_https(self, item):
+        '''
+        检查item是否可用,通过传入的URl去检查
+        :param item:
+        :param http_url:
+        :param https_url:
+        :return:
+        '''
+
+        proxy_type = item["type"].lower()
+
+        if self.https_url and proxy_type.find('https') != -1:
+            proxy = "%s:%s" % (item["ip"], item["port"])
+            try:
+                req = urllib2.Request(url=self.https_url)
+                req.set_proxy(proxy, proxy_type)
+                response = urllib2.urlopen(req, timeout=self.get_timeout())
+            except Exception, e:
                 return False
+            else:
+                code = response.getcode()
+                if 200 <= code < 300:
+                    return True
+                else:
+                    return False
+        else:
+            # item类型和要爬取的url协议不同, 不可用
+            # print "item type not valid: proxy type: %s" % proxy_type
+            return False
 
-    def thread_call_back(self, is_valid, item):
+    def thread_call_back(self, is_valid_http, is_valid_https, item):
         pass
 
     def _thread_call_back(self, args):
         try:
-            is_valid = self._is_valid_proxy_item(args)
+            is_valid_http = self._is_valid_proxy_item_http(args)
+            is_valid_https = self._is_valid_proxy_item_https(args)
             # if is_valid:
             #     print "valid item: %s:%s" % (args['ip'], args['port'])
-            self.thread_call_back(is_valid, args)
+            self.thread_call_back(is_valid_http, is_valid_https, args)
         except Exception, e:
             print "thread_call_back: ", e.message
 
@@ -81,8 +109,8 @@ class DumpAToB(object):
         try:
             thread_num = self.get_thread_num()
             argss = self.get_argss()
-            print "thread_num: ", thread_num
-            print "items num: ", argss.count()
+            print "thread_num: %s" % thread_num
+            print "items num: %s" % argss.count()
             self.pool = threadpool.ThreadPool(thread_num)
             requests = threadpool.makeRequests(self._thread_call_back, argss)
             [self.pool.putRequest(req) for req in requests]
@@ -118,8 +146,8 @@ class DumpProxyItemsToProxyItemsValid(DumpAToB):
     def get_timeout(self):
         return 20
 
-    def thread_call_back(self, is_valid, item):
-        if is_valid:
+    def thread_call_back(self, is_valid_http, is_valid_https, item):
+        if is_valid_http or is_valid_https:
             ProxyItemsValidDB.upsert_proxy_item(item)
         else:
             ProxyItemsDropDB.upsert_proxy_item(item)
@@ -144,8 +172,8 @@ class ValidProxyItemsValid(DumpAToB):
     def get_thread_num(self):
         return 60
 
-    def thread_call_back(self, is_valid, item):
-        if not is_valid:
+    def thread_call_back(self, is_valid_http, is_valid_https, item):
+        if not is_valid_http and not is_valid_https:
             ProxyItemsValidDB.remove_proxy_item(item)
             ProxyItemsDropDB.upsert_proxy_item(item)
 
@@ -170,8 +198,8 @@ class ValidProxyItemsDrop(DumpAToB):
     def get_timeout(self):
         return 20
 
-    def thread_call_back(self, is_valid, item):
-        if is_valid:
+    def thread_call_back(self, is_valid_http, is_valid_https, item):
+        if is_valid_http or is_valid_https:
             ProxyItemsValidDB.upsert_proxy_item(item)
         ProxyItemsDropDB.remove_proxy_item(item)
 
@@ -193,8 +221,8 @@ class ValidProxyItemsJd(DumpAToB):
     def get_thread_num(self):
         return 60
 
-    def thread_call_back(self, is_valid, item):
-        if not is_valid:
+    def thread_call_back(self, is_valid_http, is_valid_https, item):
+        if not is_valid_http and not is_valid_https:
             ProxyItemsJdDB.remove_proxy_item(item)
             ProxyItemsDropDB.upsert_proxy_item(item)
 
@@ -216,8 +244,8 @@ class DumpProxyItemsValidToProxyItemsSite(DumpAToB):
     def upsert_proxy_item(self, item):
         pass
 
-    def thread_call_back(self, is_valid, item):
-        if is_valid:
+    def thread_call_back(self, is_valid_http, is_valid_https, item):
+        if is_valid_http and is_valid_https:
             self.upsert_proxy_item(item)
 
 
