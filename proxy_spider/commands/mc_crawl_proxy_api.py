@@ -18,7 +18,7 @@ class Command(ScrapyCommand):
         try:
             print "===========mc_crawl_proxy_api run==================="
             r = requests.get(
-                "http://proxy.mimvp.com/api/fetch.php?orderid=860160506182014345&num=100&http_type=1,2&result_fields=1,2,3,4,5,6,7,8,9&result_format=json")
+                "http://proxy.mimvp.com/api/fetch.php?orderid=860160506182014345&num=3000&http_type=1,2&result_fields=1,2,3,4,5,6,7,8,9&result_format=json")
             r_json = json.loads(r.text)
             proxy_list = r_json['result']
             for proxy in proxy_list:
