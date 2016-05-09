@@ -32,16 +32,16 @@ class DumpAToB(object):
         '''
 
         proxy_type = item["type"].lower()
-        if self.https_url and proxy_type == 'https':
+        if self.https_url and proxy_type.find('https') != -1:
             pass
-        elif self.http_url and proxy_type == 'http':
+        elif self.http_url and proxy_type.find('http') != -1:
             pass
         else:
             # item类型和要爬取的url协议不同, 不可用
             print "item type not valid: proxy type: %s" % proxy_type
             return False
 
-        url = self.http_url if proxy_type == "http" else self.https_url
+        url = self.https_url if proxy_type.find("https") != -1 else self.http_url
         proxy = "%s:%s" % (item["ip"], item["port"])
         try:
             req = urllib2.Request(url=url)
