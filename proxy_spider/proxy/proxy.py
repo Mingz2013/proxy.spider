@@ -37,7 +37,7 @@ class DumpAToB(object):
             proxy = "%s:%s" % (item["ip"], item["port"])
             try:
                 req = urllib2.Request(url=self.http_url)
-                req.set_proxy(proxy, proxy_type)
+                req.set_proxy(proxy, 'http')
                 response = urllib2.urlopen(req, timeout=self.get_timeout())
             except Exception, e:
                 return False
@@ -68,12 +68,14 @@ class DumpAToB(object):
             proxy = "%s:%s" % (item["ip"], item["port"])
             try:
                 req = urllib2.Request(url=self.https_url)
-                req.set_proxy(proxy, proxy_type)
+                req.set_proxy(proxy, 'https')
                 response = urllib2.urlopen(req, timeout=self.get_timeout())
             except Exception, e:
+                # print "Exception", e
                 return False
             else:
                 code = response.getcode()
+                # print "code", code
                 if 200 <= code < 300:
                     return True
                 else:
@@ -88,10 +90,13 @@ class DumpAToB(object):
 
     def _thread_call_back(self, args):
         try:
+            # print args["type"]
             is_valid_http = self._is_valid_proxy_item_http(args)
             is_valid_https = self._is_valid_proxy_item_https(args)
-            # if is_valid:
-            #     print "valid item: %s:%s" % (args['ip'], args['port'])
+            # print "is http %s" % is_valid_http
+            # print "is_https %s" % is_valid_https
+            # if is_valid_https:
+            #     print "valid https item: %s:%s" % (args['ip'], args['port'])
             self.thread_call_back(is_valid_http, is_valid_https, args)
         except Exception, e:
             print "thread_call_back: ", e.message
@@ -133,7 +138,7 @@ class DumpProxyItemsToProxyItemsValid(DumpAToB):
     '''
     def __init__(self):
         http_url = "http://www.baidu.com/"
-        https_url = "https://www.baidu.com/"
+        https_url = "https://www.alipay.com/"
         DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
         pass
 
@@ -162,7 +167,7 @@ class ValidProxyItemsValid(DumpAToB):
 
     def __init__(self):
         http_url = "http://www.baidu.com/"
-        https_url = "https://www.baidu.com/"
+        https_url = "https://www.alipay.com/"
         DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
         pass
 
@@ -185,7 +190,7 @@ class ValidProxyItemsDrop(DumpAToB):
 
     def __init__(self):
         http_url = "http://www.baidu.com/"
-        https_url = "https://www.baidu.com/"
+        https_url = "https://www.alipay.com/"
         DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
         pass
 

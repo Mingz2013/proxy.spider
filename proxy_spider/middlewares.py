@@ -29,6 +29,19 @@ class ProxyMiddleware(object):
     proxy_items_https = ProxyHelper.get_proxy_items_valid_type_https()
 
     def process_request(self, request, spider):
+
+        if request.url.startswith("https://"):
+            # TODO 由于https代理验证有问题,这里暂时改为,将https代理替换成http代理
+            request.url = request.url.replace("https://", "http://")
+            # n = ProxyMiddleware.https_n
+            # if n >= len(ProxyMiddleware.proxy_items_https):
+            #     ProxyMiddleware.proxy_items_https = ProxyHelper.get_proxy_items_valid_type_https()
+            #     n = 0
+            #
+            # request.meta['proxy'] = "https://%s:%d" % (
+            #     ProxyMiddleware.proxy_items_http[n]["ip"], int(ProxyMiddleware.proxy_items_http[n]["port"]))
+            # ProxyMiddleware.https_n = n + 1
+
         # Set the location of the proxy
         if request.url.startswith("http://"):
             n = ProxyMiddleware.http_n
@@ -46,12 +59,4 @@ class ProxyMiddleware(object):
             # encoded_user_pass = base64.b64encode(proxy_user_pass)
             # request.headers['Proxy-Authorization'] = 'Basic ' + encoded_user_pass
 
-        if request.url.startswith("https://"):
-            n = ProxyMiddleware.https_n
-            if n >= len(ProxyMiddleware.proxy_items_https):
-                ProxyMiddleware.proxy_items_https = ProxyHelper.get_proxy_items_valid_type_https()
-                n = 0
 
-            request.meta['proxy'] = "https://%s:%d" % (
-                ProxyMiddleware.proxy_items_http[n]["ip"], int(ProxyMiddleware.proxy_items_http[n]["port"]))
-            ProxyMiddleware.https_n = n + 1
