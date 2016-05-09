@@ -34,13 +34,13 @@ class Command(ScrapyCommand):
 
     def run(self, args, opts):
         try:
-            print "===========mc_crawlall run==================="
+            print "===========mc_crawl_all run==================="
             spider_loader = self.crawler_process.spider_loader
             for spidername in args or spider_loader.list():
-                print "*********mc_crawlall spidername************" + spidername
+                print "*********mc_crawl_all spidername************" + spidername
                 self.crawler_process.crawl(spidername, **opts.spargs)
             self.crawler_process.start()
-            print "===========mc_crawlall over==================="
+            print "===========mc_crawl_all over==================="
         except Exception, e:
-            print "===========mc_crawlall exception==================="
+            print "===========mc_crawl_all exception==================="
             print e.message
