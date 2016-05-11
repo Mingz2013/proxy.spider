@@ -65,7 +65,7 @@ class DumpAToB(object):
         proxy_type = item["type"].lower()
 
         if self.https_url and proxy_type.find('https') != -1:
-            proxy = "%s:%s" % (item["ip"], item["port"])
+            # proxy = "%s:%s" % (item["ip"], item["port"])
             # try:
             #     req = urllib2.Request(url=self.https_url)
             #     req.set_proxy(proxy, 'https')
