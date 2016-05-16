@@ -75,3 +75,20 @@ class ProxyItemsJdDB(object):
     @staticmethod
     def remove_proxy_item(item):
         proxy_db.proxy_items_jd.remove({"ip": item['ip'], "port": item['port']})
+
+
+class ProxyItemsQixinDB(object):
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def get_proxy_items():
+        return proxy_db.proxy_items_qixin.find({}, {'_id': 0})
+
+    @staticmethod
+    def upsert_proxy_item(item):
+        proxy_db.proxy_items_qixin.update({"ip": item['ip'], "port": item['port']}, item, True, True)
+
+    @staticmethod
+    def remove_proxy_item(item):
+        proxy_db.proxy_items_qixin.remove({"ip": item['ip'], "port": item['port']})

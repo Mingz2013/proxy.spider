@@ -4,7 +4,7 @@ __author__ = 'zhaojm'
 import urllib2
 import threadpool
 
-from proxy_spider.db.mongo import ProxyItemsDB, ProxyItemsValidDB, ProxyItemsJdDB, ProxyItemsDropDB
+from proxy_spider.db.mongo import ProxyItemsDB, ProxyItemsValidDB, ProxyItemsJdDB, ProxyItemsDropDB, ProxyItemsQixinDB
 
 
 class DumpAToB(object):
@@ -281,14 +281,14 @@ class ValidProxyItemsQixin(DumpAToB):
         pass
 
     def get_argss(self):
-        return ProxyItemsJdDB.get_proxy_items()
+        return ProxyItemsQixinDB.get_proxy_items()
 
     def get_thread_num(self):
         return 60
 
     def thread_call_back(self, is_valid_http, is_valid_https, item):
         if not is_valid_http and not is_valid_https:
-            ProxyItemsJdDB.remove_proxy_item(item)
+            ProxyItemsQixinDB.remove_proxy_item(item)
             ProxyItemsDropDB.upsert_proxy_item(item)
 
 
@@ -303,4 +303,4 @@ class DumpProxyItemsValidToProxyItemsQixin(DumpProxyItemsValidToProxyItemsSite):
         DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url=http_url, https_url=https_url)
 
     def upsert_proxy_item(self, item):
-        ProxyItemsJdDB.upsert_proxy_item(item)
+        ProxyItemsQixinDB.upsert_proxy_item(item)
