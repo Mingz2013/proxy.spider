@@ -3,7 +3,7 @@ __author__ = 'zhaojm'
 
 import time
 from scrapy.commands import ScrapyCommand
-from proxy_spider.proxy.proxy import ValidProxyItemsJd
+from proxy_spider.proxy.proxy import ValidProxyItemsBjda
 
 
 class Command(ScrapyCommand):
@@ -16,7 +16,7 @@ class Command(ScrapyCommand):
     def run(self, args, opts):
         try:
             print "===========mc_valid_jd run==================="
-            valid = ValidProxyItemsJd()
+            valid = ValidProxyItemsBjda()
             valid.start_threadpool()
             print "===========mc_valid_jd over==================="
         except Exception, e:

@@ -2,7 +2,7 @@
 __author__ = 'zhaojm'
 
 from scrapy.commands import ScrapyCommand
-from proxy_spider.proxy.proxy import DumpProxyItemsValidToProxyItemsJd
+from proxy_spider.proxy.proxy import DumpProxyItemsValidToProxyItemsBjda
 
 
 class Command(ScrapyCommand):
@@ -15,8 +15,8 @@ class Command(ScrapyCommand):
     def run(self, args, opts):
         try:
             print "===========mc_dump_to_jd run==================="
-            dump_to_jd = DumpProxyItemsValidToProxyItemsJd()
-            dump_to_jd.start_threadpool()
+            dump_to_bjda = DumpProxyItemsValidToProxyItemsBjda()
+            dump_to_bjda.start_threadpool()
             print "===========mc_dump_to_jd over==================="
         except Exception, e:
             print "===========mc_dump_to_jd exception==================="
