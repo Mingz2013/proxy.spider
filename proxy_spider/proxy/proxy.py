@@ -111,7 +111,7 @@ class DumpAToB(object):
         return 1
 
     def get_timeout(self):
-        return 20
+        return 5
 
     def _init_threadpool(self):
         try:
@@ -180,6 +180,9 @@ class ValidProxyItemsValid(DumpAToB):
     def get_thread_num(self):
         return 60
 
+    def get_timeout(self):
+        return 10
+
     def thread_call_back(self, is_valid_http, is_valid_https, item):
         if not is_valid_http and not is_valid_https:
             ProxyItemsValidDB.remove_proxy_item(item)
@@ -229,6 +232,9 @@ class ValidProxyItemsJd(DumpAToB):
     def get_thread_num(self):
         return 60
 
+    def get_timeout(self):
+        return 10
+
     def thread_call_back(self, is_valid_http, is_valid_https, item):
         if not is_valid_http and not is_valid_https:
             ProxyItemsJdDB.remove_proxy_item(item)
@@ -248,6 +254,9 @@ class DumpProxyItemsValidToProxyItemsSite(DumpAToB):
 
     def get_thread_num(self):
         return 60
+
+    def get_timeout(self):
+        return 10
 
     def upsert_proxy_item(self, item):
         pass
