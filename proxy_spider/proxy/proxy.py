@@ -4,7 +4,8 @@ __author__ = 'zhaojm'
 import urllib2
 import threadpool
 
-from proxy_spider.db.mongo import ProxyItemsDB, ProxyItemsValidDB, ProxyItemsJdDB, ProxyItemsDropDB, ProxyItemsQixinDB
+from proxy_spider.db.mongo import ProxyItemsDB, ProxyItemsValidDB, ProxyItemsJdDB, ProxyItemsDropDB, ProxyItemsQixinDB, \
+    ProxyItemsBjdaDB
 
 
 class DumpAToB(object):
@@ -304,3 +305,40 @@ class DumpProxyItemsValidToProxyItemsQixin(DumpProxyItemsValidToProxyItemsSite):
 
     def upsert_proxy_item(self, item):
         ProxyItemsQixinDB.upsert_proxy_item(item)
+
+
+class ValidProxyItemsBjda(DumpAToB):
+    '''
+    重复 验证已验证qixin代理
+    '''
+
+    def __init__(self):
+        http_url = "http://www.bjda.gov.cn/publish/main/index.html"
+        https_url = "https://www.bjda.gov.cn/publish/main/index.html"
+        DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
+        pass
+
+    def get_argss(self):
+        return ProxyItemsBjdaDB.get_proxy_items()
+
+    def get_thread_num(self):
+        return 60
+
+    def thread_call_back(self, is_valid_http, is_valid_https, item):
+        if not is_valid_http and not is_valid_https:
+            ProxyItemsBjdaDB.remove_proxy_item(item)
+            ProxyItemsDropDB.upsert_proxy_item(item)
+
+
+class DumpProxyItemsValidToProxyItemsBjda(DumpProxyItemsValidToProxyItemsSite):
+    '''
+    验证爬取qixin可用的代理ip
+    '''
+
+    def __init__(self):
+        http_url = "http://www.bjda.gov.cn/publish/main/index.html"
+        https_url = "https://www.bjda.gov.cn/publish/main/index.html"
+        DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url=http_url, https_url=https_url)
+
+    def upsert_proxy_item(self, item):
+        ProxyItemsBjdaDB.upsert_proxy_item(item)

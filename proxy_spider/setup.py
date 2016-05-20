@@ -17,6 +17,9 @@ setup(name='scrapy-proxy_spider',
 
               'mc_dump_to_jd=proxy_spider.commands:mc_dump_to_jd',
               'mc_valid_jd=proxy_spider.commands:mc_valid_jd',
+
+              'mc_dump_to_bjda=proxy_spider.commands:mc_dump_to_bjda',
+              'mc_valid_bjda=proxy_spider.commands:mc_valid_bjda',
           ],
       },
       )
