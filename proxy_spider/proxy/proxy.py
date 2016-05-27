@@ -5,7 +5,7 @@ import urllib2
 import threadpool
 
 from proxy_spider.db.mongo import ProxyItemsDB, ProxyItemsValidDB, ProxyItemsJdDB, ProxyItemsDropDB, ProxyItemsQixinDB, \
-    ProxyItemsBjdaDB
+    ProxyItemsBjdaDB, ProxyItemsQichachaDB
 
 
 class DumpAToB(object):
@@ -351,3 +351,40 @@ class DumpProxyItemsValidToProxyItemsBjda(DumpProxyItemsValidToProxyItemsSite):
 
     def upsert_proxy_item(self, item):
         ProxyItemsBjdaDB.upsert_proxy_item(item)
+
+
+class ValidProxyItemsQichacha(DumpAToB):
+    '''
+    重复 验证已验证qichacha代理
+    '''
+
+    def __init__(self):
+        http_url = "http://www.qichacha.com"
+        https_url = "https://www.qichacha.com"
+        DumpAToB.__init__(self, http_url=http_url, https_url=https_url)
+        pass
+
+    def get_argss(self):
+        return ProxyItemsQichachaDB.get_proxy_items()
+
+    def get_thread_num(self):
+        return 60
+
+    def thread_call_back(self, is_valid_http, is_valid_https, item):
+        if not is_valid_http and not is_valid_https:
+            ProxyItemsBjdaDB.remove_proxy_item(item)
+            ProxyItemsDropDB.upsert_proxy_item(item)
+
+
+class DumpProxyItemsValidToProxyItemsQichacha(DumpProxyItemsValidToProxyItemsSite):
+    '''
+    验证爬取qixin可用的代理ip
+    '''
+
+    def __init__(self):
+        http_url = "http://www.qichacha.com"
+        https_url = "https://www.qichacha.com"
+        DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url=http_url, https_url=https_url)
+
+    def upsert_proxy_item(self, item):
+        ProxyItemsQichachaDB.upsert_proxy_item(item)
