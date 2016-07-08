@@ -15,10 +15,10 @@ class Command(ScrapyCommand):
 
     def run(self, args, opts):
         try:
-            print "===========mc_valid_jd run==================="
+            print "===========mc_valid_qichacha run==================="
             valid = ValidProxyItemsQichacha()
             valid.start_threadpool()
-            print "===========mc_valid_jd over==================="
+            print "===========mc_valid_qichacha over==================="
         except Exception, e:
-            print "===========mc_valid_jd exception==================="
+            print "===========mc_valid_qichacha exception==================="
             print e.message
