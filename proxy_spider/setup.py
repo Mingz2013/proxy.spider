@@ -22,7 +22,7 @@ setup(name='scrapy-proxy_spider',
               'mc_valid_bjda=proxy_spider.commands:mc_valid_bjda',
 
               'mc_dump_to_qichacha=proxy_spider.commands:mc_dump_to_qichacha',
-              'mc_valid_qichacha=proxy_spider.commands:mc_valid_chacha',
+              'mc_valid_qichacha=proxy_spider.commands:mc_valid_qichacha',
           ],
       },
       )
