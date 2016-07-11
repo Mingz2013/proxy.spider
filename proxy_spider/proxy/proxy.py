@@ -416,7 +416,7 @@ class ValidProxyItemsQichacha(DumpAToB):
 
     def thread_call_back(self, is_valid_http, is_valid_https, item):
         if not is_valid_http:
-            ProxyItemsBjdaDB.remove_proxy_item(item)
+            ProxyItemsQichachaDB.remove_proxy_item(item)
             ProxyItemsDropDB.upsert_proxy_item(item)
 
 
