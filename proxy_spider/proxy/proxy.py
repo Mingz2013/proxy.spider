@@ -34,14 +34,14 @@ class DumpAToB(object):
 
         proxy_type = item["type"].lower()
 
-        if self.http_url and proxy_type.find('http') != -1:
+        if self.http_url and proxy_type.find('http') > -1:
             proxy = "%s:%s" % (item["ip"], item["port"])
             try:
                 req = urllib2.Request(url=self.http_url)
                 req.set_proxy(proxy, 'http')
                 response = urllib2.urlopen(req, timeout=self.get_timeout())
             except Exception, e:
-                print "_is_valid_proxy_item_http: " + e.message
+                print "_is_valid_proxy_item_http: http request ->" + e.message
                 return False
             else:
                 code = response.getcode()
@@ -50,7 +50,7 @@ class DumpAToB(object):
                         html = response.read()
                         return self.check_html(html)
                     except Exception, e:
-                        print "_is_valid_proxy_item_http: " + e.message
+                        print "_is_valid_proxy_item_http: response.read->" + e.message
                         return False
                 else:
                     return False
@@ -71,7 +71,7 @@ class DumpAToB(object):
 
         proxy_type = item["type"].lower()
 
-        if self.https_url and proxy_type.find('https') != -1:
+        if self.https_url and proxy_type.find('https') > -1:
             # proxy = "%s:%s" % (item["ip"], item["port"])
             # try:
             #     req = urllib2.Request(url=self.https_url)
@@ -167,7 +167,7 @@ class DumpProxyItemsToProxyItemsValid(DumpAToB):
         return True
 
     def thread_call_back(self, is_valid_http, is_valid_https, item):
-        if is_valid_http or is_valid_https:
+        if is_valid_http:
             ProxyItemsValidDB.upsert_proxy_item(item)
         else:
             ProxyItemsDropDB.upsert_proxy_item(item)
@@ -199,7 +199,7 @@ class ValidProxyItemsValid(DumpAToB):
         return True
 
     def thread_call_back(self, is_valid_http, is_valid_https, item):
-        if not is_valid_http and not is_valid_https:
+        if not is_valid_http:
             ProxyItemsValidDB.remove_proxy_item(item)
             ProxyItemsDropDB.upsert_proxy_item(item)
 
@@ -415,7 +415,7 @@ class ValidProxyItemsQichacha(DumpAToB):
         return False
 
     def thread_call_back(self, is_valid_http, is_valid_https, item):
-        if not is_valid_http and not is_valid_https:
+        if not is_valid_http:
             ProxyItemsBjdaDB.remove_proxy_item(item)
             ProxyItemsDropDB.upsert_proxy_item(item)
 
