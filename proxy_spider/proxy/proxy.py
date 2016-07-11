@@ -45,7 +45,7 @@ class DumpAToB(object):
             else:
                 code = response.getcode()
                 if 200 <= code < 300:
-                    return True
+                    return self.check_html(response.read())
                 else:
                     return False
             pass
@@ -78,7 +78,7 @@ class DumpAToB(object):
             #     code = response.getcode()
             #     # print "code", code
             #     if 200 <= code < 300:
-            #         return True
+            #         return self.check_html()
             #     else:
             #         return False
             # 总是验证失败,为了留一些https的,直接不验证了
@@ -112,6 +112,9 @@ class DumpAToB(object):
 
     def get_timeout(self):
         return 5
+
+    def check_html(self, html):
+        return True
 
     def _init_threadpool(self):
         try:
@@ -154,6 +157,9 @@ class DumpProxyItemsToProxyItemsValid(DumpAToB):
     def get_timeout(self):
         return 20
 
+    def check_html(self, html):
+        return True
+
     def thread_call_back(self, is_valid_http, is_valid_https, item):
         if is_valid_http or is_valid_https:
             ProxyItemsValidDB.upsert_proxy_item(item)
@@ -183,6 +189,9 @@ class ValidProxyItemsValid(DumpAToB):
     def get_timeout(self):
         return 10
 
+    def check_html(self, html):
+        return True
+
     def thread_call_back(self, is_valid_http, is_valid_https, item):
         if not is_valid_http and not is_valid_https:
             ProxyItemsValidDB.remove_proxy_item(item)
@@ -208,6 +217,9 @@ class ValidProxyItemsDrop(DumpAToB):
 
     def get_timeout(self):
         return 20
+
+    def check_html(self, html):
+        return True
 
     def thread_call_back(self, is_valid_http, is_valid_https, item):
         if is_valid_http or is_valid_https:
@@ -235,6 +247,9 @@ class ValidProxyItemsJd(DumpAToB):
     def get_timeout(self):
         return 10
 
+    def check_html(self, html):
+        return True
+
     def thread_call_back(self, is_valid_http, is_valid_https, item):
         if not is_valid_http and not is_valid_https:
             ProxyItemsJdDB.remove_proxy_item(item)
@@ -258,6 +273,9 @@ class DumpProxyItemsValidToProxyItemsSite(DumpAToB):
     def get_timeout(self):
         return 10
 
+    def check_html(self, html):
+        return True
+
     def upsert_proxy_item(self, item):
         pass
 
@@ -274,6 +292,9 @@ class DumpProxyItemsValidToProxyItemsJd(DumpProxyItemsValidToProxyItemsSite):
         http_url = "http://www.jd.com/"
         https_url = "https://www.jd.com/"
         DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url=http_url, https_url=https_url)
+
+    def check_html(self, html):
+        return True
 
     def upsert_proxy_item(self, item):
         ProxyItemsJdDB.upsert_proxy_item(item)
@@ -296,6 +317,9 @@ class ValidProxyItemsQixin(DumpAToB):
     def get_thread_num(self):
         return 60
 
+    def check_html(self, html):
+        return True
+
     def thread_call_back(self, is_valid_http, is_valid_https, item):
         if not is_valid_http and not is_valid_https:
             ProxyItemsQixinDB.remove_proxy_item(item)
@@ -311,6 +335,9 @@ class DumpProxyItemsValidToProxyItemsQixin(DumpProxyItemsValidToProxyItemsSite):
         http_url = "http://www.qixin.com/"
         https_url = "https://www.qixin.com/"
         DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url=http_url, https_url=https_url)
+
+    def check_html(self, html):
+        return True
 
     def upsert_proxy_item(self, item):
         ProxyItemsQixinDB.upsert_proxy_item(item)
@@ -333,6 +360,9 @@ class ValidProxyItemsBjda(DumpAToB):
     def get_thread_num(self):
         return 60
 
+    def check_html(self, html):
+        return True
+
     def thread_call_back(self, is_valid_http, is_valid_https, item):
         if not is_valid_http and not is_valid_https:
             ProxyItemsBjdaDB.remove_proxy_item(item)
@@ -348,6 +378,9 @@ class DumpProxyItemsValidToProxyItemsBjda(DumpProxyItemsValidToProxyItemsSite):
         http_url = "http://www.bjda.gov.cn/publish/main/index.html"
         https_url = "https://www.bjda.gov.cn/publish/main/index.html"
         DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url=http_url, https_url=https_url)
+
+    def check_html(self, html):
+        return True
 
     def upsert_proxy_item(self, item):
         ProxyItemsBjdaDB.upsert_proxy_item(item)
@@ -370,6 +403,11 @@ class ValidProxyItemsQichacha(DumpAToB):
     def get_thread_num(self):
         return 60
 
+    def check_html(self, html):
+        if html.find('企查查') > -1:
+            return True
+        return False
+
     def thread_call_back(self, is_valid_http, is_valid_https, item):
         if not is_valid_http and not is_valid_https:
             ProxyItemsBjdaDB.remove_proxy_item(item)
@@ -378,13 +416,18 @@ class ValidProxyItemsQichacha(DumpAToB):
 
 class DumpProxyItemsValidToProxyItemsQichacha(DumpProxyItemsValidToProxyItemsSite):
     '''
-    验证爬取qixin可用的代理ip
+    验证爬取qichacha可用的代理ip
     '''
 
     def __init__(self):
         http_url = "http://www.qichacha.com"
         https_url = "https://www.qichacha.com"
         DumpProxyItemsValidToProxyItemsSite.__init__(self, http_url=http_url, https_url=https_url)
+
+    def check_html(self, html):
+        if html.find('企查查') > -1:
+            return True
+        return False
 
     def upsert_proxy_item(self, item):
         ProxyItemsQichachaDB.upsert_proxy_item(item)
