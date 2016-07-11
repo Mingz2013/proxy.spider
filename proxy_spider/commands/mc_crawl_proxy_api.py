@@ -22,7 +22,7 @@ class Command(ScrapyCommand):
             r_json = json.loads(r.text)
             proxy_list = r_json['result']
             for proxy in proxy_list:
-                # print proxy
+                print proxy
                 ip_port = proxy['ip:port']
                 ip, port = ip_port.split(':')
                 item = {
