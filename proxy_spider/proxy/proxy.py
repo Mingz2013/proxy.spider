@@ -41,11 +41,17 @@ class DumpAToB(object):
                 req.set_proxy(proxy, 'http')
                 response = urllib2.urlopen(req, timeout=self.get_timeout())
             except Exception, e:
+                print "_is_valid_proxy_item_http: " + e.message
                 return False
             else:
                 code = response.getcode()
                 if 200 <= code < 300:
-                    return self.check_html(response.read())
+                    try:
+                        html = response.read()
+                        return self.check_html(html)
+                    except Exception, e:
+                        print "_is_valid_proxy_item_http: " + e.message
+                        return False
                 else:
                     return False
             pass
