@@ -19,12 +19,8 @@ def mv_to(from_collection):
 
 
 collections = [
-    "proxy_items_bjda",
-    "proxy_items_drop",
-    "proxy_items_jd",
-    "proxy_items_qichacha",
-    "proxy_items_qixin",
-    "proxy_items_valid"
+    "proxy_items_other",
+    "proxy_items_qianzhan",
 ]
 
 if __name__ == "__main__":
