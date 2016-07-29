@@ -14,6 +14,7 @@ proxy_db = mongo_client[MONGO_PROXY_DB]
 def mv_to(from_collection):
     cur = proxy_db[from_collection].find({}, {'_id': 0}).batch_size(50)
     for item in cur:
+        print "%s: %s" % (item['ip'], item['port'])
         proxy_db.proxy_items.update({"ip": item['ip'], "port": item['port']}, item, True, True)
 
 
