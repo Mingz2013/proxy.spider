@@ -6,11 +6,12 @@ import requests
 import json
 from proxy_spider.db.mongo import ProxyItemsDB
 import logging
+from log import init_logging
 
 
 def run():
     try:
-        print "===========mc_crawl_proxy_api run==================="
+        logging.info("===========mc_crawl_proxy_api run===================")
         r = requests.get(
             "http://proxy.mimvp.com/api/fetch.php?orderid=860160922170106912&num=5000&result_fields=1,2,3,4,5,6,7,8,9&result_format=json")
         r_json = json.loads(r.text)
@@ -30,11 +31,12 @@ def run():
             }
             ProxyItemsDB.upsert_proxy_item(item)
 
-        print "===========mc_crawl_proxy_api over==================="
+        logging.info("===========mc_crawl_proxy_api over===================")
     except Exception, e:
-        print "===========mc_crawl_proxy_api exception==================="
-        print e.message
+        logging.info("===========mc_crawl_proxy_api exception===================")
+        logging.info(e.message)
 
 
 if __name__ == "__main__":
+    init_logging("log/crawl_proxy_api.log", "log/crawl_proxy_api_2.log")
     run()
