@@ -129,9 +129,7 @@ ITEM_PIPELINES = {
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-# MONGO
-MONGO_URI = "localhost:27017"
-MONGO_PROXY_DB = "proxy"
+
 
 # LOG
 LOG_FILE = 'log/%s.log' % datetime.datetime.now().strftime('%Y-%m-%d')
