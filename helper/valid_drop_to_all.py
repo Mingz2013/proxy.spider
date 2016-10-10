@@ -37,5 +37,6 @@ def main():
 
 
 if __name__ == "__main__":
+    init_logging("log/valid_drop_to_all.log", "log/valid_drop_to_all_2.log")
     main()
     pass

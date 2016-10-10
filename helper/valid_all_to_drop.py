@@ -36,6 +36,6 @@ def main():
 
 
 if __name__ == "__main__":
-    init_logging("log/crawl_proxy_api.log", "log/crawl_proxy_api_2.log")
+    init_logging("log/valid_all_to_drop.log", "log/valid_all_to_drop_2.log")
     main()
     pass
