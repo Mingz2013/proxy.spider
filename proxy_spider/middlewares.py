@@ -3,7 +3,7 @@ __author__ = 'zhaojm'
 
 import base64
 import random
-from proxy_spider.proxy.proxy_helper import ProxyHelper
+# from proxy_spider.proxy.proxy_helper import ProxyHelper
 import logging
 
 
