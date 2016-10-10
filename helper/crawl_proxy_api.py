@@ -23,12 +23,9 @@ def run():
             item = {
                 'ip': ip,
                 'port': port,
-                'location': proxy['country'],
-                'anonymous': proxy['anonymous'],
-                'type': proxy['http_type'],
-                'speed': proxy['transfer_time'],
-                'time': proxy['check_dtime'],
+                'type': proxy['http_type']
             }
+            item.update(proxy)
             ProxyItemsDB.upsert_proxy_item(item)
 
         logging.info("===========mc_crawl_proxy_api over===================")
