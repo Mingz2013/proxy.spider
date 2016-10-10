@@ -6,8 +6,7 @@ from setuptools import setup, find_packages
 setup(name='scrapy-proxy_spider',
       entry_points={
           'scrapy.commands': [
-              'mc_crawl_all=proxy_spider.commands:mc_crawl_all',
-              'mc_crawl_proxy_api=proxy_spider.commands:mc_crawl_proxy_api'
+              'mc_crawl_all=proxy_spider.commands:mc_crawl_all'
           ],
       },
       )
