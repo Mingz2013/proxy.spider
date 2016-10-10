@@ -90,7 +90,7 @@ COOKIES_ENABLED = False
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     # 'proxy_spider.middlewares.MyCustomDownloaderMiddleware': 543,
-    'proxy_spider.middlewares.ProxyMiddleware': 760,
+    # 'proxy_spider.middlewares.ProxyMiddleware': 760,
     'proxy_spider.middlewares.RandomUserAgentMiddleware': 410,
 }
 
