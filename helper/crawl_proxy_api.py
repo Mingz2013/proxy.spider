@@ -4,7 +4,7 @@ __author__ = 'zhaojm'
 
 import requests
 import json
-from proxy_spider.db.mongo import ProxyItemsDB
+from mongo import ProxyItemsDB
 import logging
 from log import init_logging
 
