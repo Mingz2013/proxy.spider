@@ -23,7 +23,7 @@ def run():
             item = {
                 'ip': ip,
                 'port': port,
-                'type': proxy['http_type']
+                'type': proxy.get('http_type')
             }
             item.update(proxy)
             ProxyItemsDB.upsert_proxy_item(item)
