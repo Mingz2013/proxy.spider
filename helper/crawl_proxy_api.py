@@ -4,7 +4,7 @@ __author__ = 'zhaojm'
 
 import requests
 import json
-from mongo import ProxyItemsDB
+from mongo import ProxyItemsTmpDB
 import logging
 from log import init_logging
 
@@ -26,7 +26,7 @@ def run():
                 'type': proxy.get('http_type')
             }
             item.update(proxy)
-            ProxyItemsDB.upsert_proxy_item(item)
+            ProxyItemsTmpDB.upsert_proxy_item(item)
 
         logging.info("===========mc_crawl_proxy_api over===================")
     except Exception, e:

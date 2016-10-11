@@ -6,7 +6,7 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 from scrapy.exceptions import DropItem
-from proxy_spider.db.mongo import ProxyItemsDB
+from proxy_spider.db.mongo import ProxyItemsTmpDB
 
 
 # from proxy import ProxyHelper
@@ -47,5 +47,5 @@ class DuplicatesPipeline(object):
 
 class MongoPipeline(object):
     def process_item(self, item, spider):
-        ProxyItemsDB.upsert_proxy_item(dict(item))
+        ProxyItemsTmpDB.upsert_proxy_item(dict(item))
         return item

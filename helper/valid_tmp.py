@@ -6,7 +6,7 @@ import logging
 import requests
 
 from log import init_logging
-from mongo import ProxyItemsDB, ProxyItemsDropDB
+from mongo import ProxyItemsDB, ProxyItemsDropDB, ProxyItemsTmpDB
 
 default_header = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -40,18 +40,20 @@ def valid_proxy(item):
 
 
 def main():
-    cur = ProxyItemsDropDB.get_proxy_items()
+    cur = ProxyItemsTmpDB.get_proxy_items()
     for item in cur:
         if valid_proxy(item):
-            ProxyItemsDropDB.remove_proxy_item(item)
             ProxyItemsDB.upsert_proxy_item(item)
             pass
         else:
+            ProxyItemsDropDB.upsert_proxy_item(item)
             pass
+        ProxyItemsTmpDB.remove_proxy_item(item)
+
     pass
 
 
 if __name__ == "__main__":
-    init_logging("log/valid_drop_to_all.log", "log/valid_drop_to_all_2.log")
+    init_logging("log/valid_all_to_drop.log", "log/valid_all_to_drop_2.log")
     main()
     pass
