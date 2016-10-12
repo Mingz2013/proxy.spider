@@ -54,6 +54,6 @@ def main():
 
 
 if __name__ == "__main__":
-    init_logging("log/valid_all_to_drop.log", "log/valid_all_to_drop_2.log")
+    init_logging("log/valid_tmp.log", "log/valid_tmp_2.log")
     main()
     pass
