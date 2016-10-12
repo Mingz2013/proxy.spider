@@ -27,7 +27,7 @@ def valid_proxy(item):
     try:
         proxies = {"http": "%s:%s" % (item["ip"], item["port"])}
         logging.info(proxies)
-        response = requests.get("http://www.baidu.com", proxies=proxies, allow_redirects=False, timeout=5,
+        response = requests.get("http://www.baidu.com", proxies=proxies, allow_redirects=False, timeout=3,
                                 headers=default_header)
         if response.status_code != 200:
             raise Exception("status code error")
