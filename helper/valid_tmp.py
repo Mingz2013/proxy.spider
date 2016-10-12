@@ -35,7 +35,7 @@ def valid_proxy(item):
         logging.info("-----------------valid good---------------------")
         return True
     except Exception, e:
-        logging.info("-----------------valid bad---------------------")
+        logging.info("-----------------valid bad---------------------%s" % e.message)
         return False
 
 
