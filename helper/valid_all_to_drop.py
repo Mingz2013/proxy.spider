@@ -4,6 +4,7 @@ __author__ = 'zhaojm'
 import logging
 
 import requests
+import time
 
 from log import init_logging
 from mongo import ProxyItemsDB, ProxyItemsDropDB
@@ -48,6 +49,7 @@ def main():
             ProxyItemsDB.remove_proxy_item(item)
             ProxyItemsDropDB.upsert_proxy_item(item)
             pass
+            # time.sleep(2)
 
     pass
 
