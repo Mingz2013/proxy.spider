@@ -14,6 +14,8 @@ def main():
     for item in cur:
         ret = valid_proxy(item)
         if ret:
+            ProxyItemsDB.remove_proxy_item(item)
+            ProxyItemsDB.upsert_proxy_item(ret)
             pass
         else:
             ProxyItemsDB.remove_proxy_item(item)
