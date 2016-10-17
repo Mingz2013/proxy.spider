@@ -11,13 +11,14 @@ from valid_proxy import valid_proxy
 def main():
     cur = ProxyItemsTmpDB.get_proxy_items()
     for item in cur:
-        if valid_proxy(item):
-            ProxyItemsDB.upsert_proxy_item(item)
+        ret = valid_proxy(item)
+        if ret:
+            ProxyItemsDB.upsert_proxy_item(ret)
             pass
         else:
-            ProxyItemsDropDB.upsert_proxy_item(item)
+            ProxyItemsDropDB.upsert_proxy_item(ret)
             pass
-        ProxyItemsTmpDB.remove_proxy_item(item)
+        ProxyItemsTmpDB.remove_proxy_item(ret)
 
     pass
 
