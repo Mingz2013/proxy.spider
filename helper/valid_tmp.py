@@ -16,9 +16,9 @@ def main():
             ProxyItemsDB.upsert_proxy_item(ret)
             pass
         else:
-            ProxyItemsDropDB.upsert_proxy_item(ret)
+            ProxyItemsDropDB.upsert_proxy_item(item)
             pass
-        ProxyItemsTmpDB.remove_proxy_item(ret)
+        ProxyItemsTmpDB.remove_proxy_item(item)
 
     pass
 
