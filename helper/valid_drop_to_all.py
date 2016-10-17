@@ -3,7 +3,7 @@ __author__ = 'zhaojm'
 
 
 from log import init_logging
-from mongo import ProxyItemsDB, ProxyItemsDropDB
+from mongo import ProxyItemsDB, ProxyItemsDropDB, ProxyItemsDropForeverDB
 
 from valid_proxy import valid_proxy
 from get_proxy import GetProxy
@@ -19,7 +19,9 @@ def main():
             ProxyItemsDB.upsert_proxy_item(ret)
             ProxyItemsDropDB.remove_proxy_item(item)
             pass
-    pass
+        else:
+            ProxyItemsDropDB.remove_proxy_item(item)
+            ProxyItemsDropForeverDB.upsert_proxy_item(item)
 
 
 if __name__ == "__main__":
