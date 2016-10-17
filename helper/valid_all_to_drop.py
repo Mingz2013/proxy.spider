@@ -6,12 +6,14 @@ from log import init_logging
 from mongo import ProxyItemsDB, ProxyItemsDropDB
 
 from valid_proxy import valid_proxy
+from get_proxy import GetProxy
 
 
 
 def main():
-    cur = ProxyItemsDB.get_proxy_items()
-    for item in cur:
+    get_proxy = GetProxy(ProxyItemsDB)
+    while True:
+        item = get_proxy.get_proxy()
         ret = valid_proxy(item)
         if ret:
             ProxyItemsDB.remove_proxy_item(item)

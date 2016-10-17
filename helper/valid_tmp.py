@@ -6,11 +6,14 @@ from log import init_logging
 from mongo import ProxyItemsDB, ProxyItemsDropDB, ProxyItemsTmpDB
 
 from valid_proxy import valid_proxy
+from get_proxy import GetProxy
+
 
 
 def main():
-    cur = ProxyItemsTmpDB.get_proxy_items()
-    for item in cur:
+    get_proxy = GetProxy(ProxyItemsTmpDB)
+    while True:
+        item = get_proxy.get_proxy()
         ret = valid_proxy(item)
         if ret:
             ProxyItemsDB.upsert_proxy_item(ret)
