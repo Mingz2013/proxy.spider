@@ -39,7 +39,7 @@ def valid_proxy(item):
 
 
 def valid_get(proxies):
-    logging.log("valid get...")
+    logging.info("valid get...")
     try:
         response = requests.get(sever_url, proxies=proxies, allow_redirects=False, timeout=3)
         if response.status_code != 200:
@@ -55,7 +55,7 @@ def valid_get(proxies):
 
 
 def valid_post(proxies):
-    logging.log("valid post...")
+    logging.info("valid post...")
     try:
         response = requests.post(sever_url, proxies=proxies, allow_redirects=False, timeout=3)
         if response.status_code != 200:
