@@ -15,8 +15,6 @@ def main():
         ret = valid_proxy(item)
         if ret:
             ProxyItemsDB.upsert_proxy_item(ret)
-            pass
-        else:
             ProxyItemsDropDB.remove_proxy_item(item)
             pass
     pass
