@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'zhaojm'
 
-
 import requests
 import json
 from mongo import ProxyItemsTmpDB
